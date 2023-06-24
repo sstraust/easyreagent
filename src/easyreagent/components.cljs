@@ -1,6 +1,17 @@
 (ns easyreagent.components
-  [reagent.dom :as rdom]
-  [reagent.core :as r])
+  (:require 
+   [reagent.dom :as rdom]
+   [reagent.core :as r])
+  (:require-macros [easyreagent.create_component_macros :refer [defc]]))
+
+
+(println (macroexpand-1 '(defc text-field [curr-value-atom]
+                           [:input])))
+
+(defc text-field [curr-value-atom]
+  [:input {:on-change (fn [val] (reset! curr-value-atom (-> val .-target .-value)))
+           :value @curr-value-atom
+           :class "input input-xs input-bordered w-full max-w-xs"}])
 
 ;; now you want to verify that it
 ;; actually loads the components as a library
@@ -9,16 +20,16 @@
 
 
 ;; so your first goal is just to import it in the deps.edn
-(defn text-field [additional-options curr-value-atom]
-  [:input (merge additional-options
-                 {:on-change (fn [val] (reset! curr-value-atom (-> val .-target .-value)))
-                  :style (merge 
-                          {:width "100%"
-                           :background-color "inherit"
-                           :font-size 9}
-                          (:style additional-options))
-                  :class (or (:class additional-options) "input input-xs input-bordered w-full max-w-xs")
-                  :value @curr-value-atom})])
+;; (defn text-field [additional-options curr-value-atom]
+;;   [:input (merge additional-options
+;;                  {:on-change (fn [val] (reset! curr-value-atom (-> val .-target .-value)))
+;;                   :value @curr-value-atom
+;;                   :style (merge 
+;;                           {:width "100%"
+;;                            :background-color "inherit"
+;;                            :font-size 9}
+;;                           (:style additional-options))
+;;                   :class (or (:class additional-options) "input input-xs input-bordered w-full max-w-xs")})])
 
 
 (defn text-area [additional-options curr-value-atom]
