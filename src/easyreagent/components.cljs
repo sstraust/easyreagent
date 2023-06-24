@@ -1,6 +1,7 @@
 (ns easyreagent.components
   (:require 
    [reagent.dom :as rdom]
+   [easyreagent.create_component :refer [with-attr-map]]
    [reagent.core :as r])
   (:require-macros [easyreagent.create_component_macros :refer [defc]]))
 
