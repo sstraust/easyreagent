@@ -1,0 +1,1 @@
+{:browser-repl true, :main easyreagent.components, :output-to "out/main.js", :output-dir "out", :aot-cache true}
