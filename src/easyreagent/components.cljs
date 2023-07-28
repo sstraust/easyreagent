@@ -42,6 +42,14 @@
       [:div (get-date-str (- end-time @curr-time))])))
 
 
+(defn popup-window [options is-shown & body]
+  (fn [options is-shown & body]
+    (when @is-shown
+      [:div (merge-attrs options {:class "popout-menu"})
+       [:div {:class "btn btn-ghost"
+              :on-click (fn [] (swap! is-shown not))} "X"]
+       [:<> body]])))
+
 ;; style options
 ;; (defn popup-window [style-options is-visible & body]
 ;;   (let [style-options (if (map? style-options) style-options nil)

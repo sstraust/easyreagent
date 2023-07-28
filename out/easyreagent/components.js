@@ -5,8 +5,8 @@ goog.require('reagent.dom');
 goog.require('easyreagent.create_component');
 goog.require('reagent.core');
 easyreagent.components.text_field = (function easyreagent$components$text_field(var_args){
-var G__712 = arguments.length;
-switch (G__712) {
+var G__710 = arguments.length;
+switch (G__710) {
 case 1:
 return easyreagent.components.text_field.cljs$core$IFn$_invoke$arity$1((arguments[(0)]));
 
@@ -51,8 +51,8 @@ return null;
 (easyreagent.components.text_field.cljs$lang$maxFixedArity = 2);
 
 easyreagent.components.text_area = (function easyreagent$components$text_area(var_args){
-var G__715 = arguments.length;
-switch (G__715) {
+var G__713 = arguments.length;
+switch (G__713) {
 case 1:
 return easyreagent.components.text_area.cljs$core$IFn$_invoke$arity$1((arguments[(0)]));
 
@@ -117,5 +117,70 @@ return (function (){
 return new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"div","div",1057191632),easyreagent.components.get_date_str.call(null,(end_time - cljs.core.deref.call(null,curr_time)))], null);
 });
 });
+easyreagent.components.popup_window = (function easyreagent$components$popup_window(var_args){
+var args__5772__auto__ = [];
+var len__5766__auto___718 = arguments.length;
+var i__5767__auto___719 = (0);
+while(true){
+if((i__5767__auto___719 < len__5766__auto___718)){
+args__5772__auto__.push((arguments[i__5767__auto___719]));
+
+var G__720 = (i__5767__auto___719 + (1));
+i__5767__auto___719 = G__720;
+continue;
+} else {
+}
+break;
+}
+
+var argseq__5773__auto__ = ((((2) < args__5772__auto__.length))?(new cljs.core.IndexedSeq(args__5772__auto__.slice((2)),(0),null)):null);
+return easyreagent.components.popup_window.cljs$core$IFn$_invoke$arity$variadic((arguments[(0)]),(arguments[(1)]),argseq__5773__auto__);
+});
+
+(easyreagent.components.popup_window.cljs$core$IFn$_invoke$arity$variadic = (function (options,is_shown,body){
+return (function() { 
+var G__721__delegate = function (options__$1,is_shown__$1,body__$1){
+if(cljs.core.truth_(cljs.core.deref.call(null,is_shown__$1))){
+return new cljs.core.PersistentVector(null, 4, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"div","div",1057191632),easyreagent.components.merge_attrs.call(null,options__$1,new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null,"class","class",-2030961996),"popout-menu"], null)),new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"div","div",1057191632),new cljs.core.PersistentArrayMap(null, 2, [new cljs.core.Keyword(null,"class","class",-2030961996),"btn btn-ghost",new cljs.core.Keyword(null,"on-click","on-click",1632826543),(function (){
+return cljs.core.swap_BANG_.call(null,is_shown__$1,cljs.core.not);
+})], null),"X"], null),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"<>","<>",1280186386),body__$1], null)], null);
+} else {
+return null;
+}
+};
+var G__721 = function (options__$1,is_shown__$1,var_args){
+var body__$1 = null;
+if (arguments.length > 2) {
+var G__722__i = 0, G__722__a = new Array(arguments.length -  2);
+while (G__722__i < G__722__a.length) {G__722__a[G__722__i] = arguments[G__722__i + 2]; ++G__722__i;}
+  body__$1 = new cljs.core.IndexedSeq(G__722__a,0,null);
+} 
+return G__721__delegate.call(this,options__$1,is_shown__$1,body__$1);};
+G__721.cljs$lang$maxFixedArity = 2;
+G__721.cljs$lang$applyTo = (function (arglist__723){
+var options__$1 = cljs.core.first(arglist__723);
+arglist__723 = cljs.core.next(arglist__723);
+var is_shown__$1 = cljs.core.first(arglist__723);
+var body__$1 = cljs.core.rest(arglist__723);
+return G__721__delegate(options__$1,is_shown__$1,body__$1);
+});
+G__721.cljs$core$IFn$_invoke$arity$variadic = G__721__delegate;
+return G__721;
+})()
+;
+}));
+
+(easyreagent.components.popup_window.cljs$lang$maxFixedArity = (2));
+
+/** @this {Function} */
+(easyreagent.components.popup_window.cljs$lang$applyTo = (function (seq715){
+var G__716 = cljs.core.first.call(null,seq715);
+var seq715__$1 = cljs.core.next.call(null,seq715);
+var G__717 = cljs.core.first.call(null,seq715__$1);
+var seq715__$2 = cljs.core.next.call(null,seq715__$1);
+var self__5751__auto__ = this;
+return self__5751__auto__.cljs$core$IFn$_invoke$arity$variadic(G__716,G__717,seq715__$2);
+}));
+
 
 //# sourceMappingURL=components.js.map
