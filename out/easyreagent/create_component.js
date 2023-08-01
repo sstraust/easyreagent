@@ -9,7 +9,7 @@ return elt1;
 }
 });
 easyreagent.create_component.merge_attrs = (function easyreagent$create_component$merge_attrs(attr_map,original_attr_map){
-var class_attrs = [cljs.core.str.cljs$core$IFn$_invoke$arity$1(new cljs.core.Keyword(null,"class","class",-2030961996).cljs$core$IFn$_invoke$arity$1(attr_map))," ",cljs.core.str.cljs$core$IFn$_invoke$arity$1(new cljs.core.Keyword(null,"class","class",-2030961996).cljs$core$IFn$_invoke$arity$1(original_attr_map))].join('');
+var class_attrs = [cljs.core.str.cljs$core$IFn$_invoke$arity$1(new cljs.core.Keyword(null,"class","class",-2030961996).cljs$core$IFn$_invoke$arity$1(original_attr_map))," ",cljs.core.str.cljs$core$IFn$_invoke$arity$1(new cljs.core.Keyword(null,"class","class",-2030961996).cljs$core$IFn$_invoke$arity$1(attr_map))].join('');
 var merged_maps = cljs.core.merge_with.call(null,easyreagent.create_component.first_or_merge,attr_map,original_attr_map);
 return cljs.core.assoc.call(null,merged_maps,new cljs.core.Keyword(null,"class","class",-2030961996),class_attrs);
 });

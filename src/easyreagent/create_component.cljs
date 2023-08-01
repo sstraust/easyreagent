@@ -7,9 +7,9 @@
 
 
 (defn merge-attrs [attr-map original-attr-map]
-  (let [class-attrs (str (:class attr-map)
+  (let [class-attrs (str (:class original-attr-map)
                          " "
-                         (:class original-attr-map))
+                         (:class attr-map))
         merged-maps (merge-with first-or-merge attr-map original-attr-map)]
     (assoc merged-maps :class class-attrs)))
 
