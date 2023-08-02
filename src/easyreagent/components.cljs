@@ -18,7 +18,7 @@
 (defc text-area [curr-value-atom]
   [:textarea {:on-change (fn [val] (do
                                      (reset! curr-value-atom (-> val .-target .-value))
-                                     (:additional-on-change attr-map)))
+                                     ((:additional-on-change attr-map))))
               :value @curr-value-atom
               :class "input input-xs input-bordered w-full max-w-xs"}])
 
