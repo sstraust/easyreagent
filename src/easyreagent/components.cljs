@@ -1,9 +1,9 @@
 (ns easyreagent.components
   (:require 
    [reagent.dom :as rdom]
-   [easyreagent.create_component :refer [with-attr-map]]
+   [easyreagent.create-component :refer [with-attr-map]]
    [reagent.core :as r])
-  (:require-macros [easyreagent.create_component_macros :refer [defc]]))
+  (:require-macros [easyreagent.create-component-macros :refer [defc]]))
 
 
 (defc text-field [curr-value-atom]
@@ -46,7 +46,7 @@
 (defn popup-window [options is-shown & body]
   (fn [options is-shown & body]
     (when @is-shown
-      [:div (easyreagent.create_component/merge-attrs options {:class "popout-menu"})
+      [:div (easyreagent.create-component/merge-attrs options {:class "popout-menu"})
        [:div {:class "btn btn-ghost"
               :on-click (fn [] (swap! is-shown not))} "X"]
        (into [] (concat [:<>]  body))])))

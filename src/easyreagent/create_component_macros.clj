@@ -1,4 +1,4 @@
-(ns easyreagent.create_component_macros)
+(ns easyreagent.create-component-macros)
 
 
 
@@ -9,6 +9,6 @@
      (~args-list (let [~'attr-map nil] ~@body))
      (~(into [] (cons 'attr-map args-list))
       (fn ~(into [] (cons 'attr-map args-list))
-        (easyreagent.create_component/with-attr-map ~'attr-map
+        (easyreagent.create-component/with-attr-map ~'attr-map
         (do ~@body))))))
       

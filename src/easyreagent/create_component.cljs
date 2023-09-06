@@ -1,4 +1,4 @@
-(ns easyreagent.create_component)
+(ns easyreagent.create-component)
 
 (defn first-or-merge [elt1 elt2]
   (if (and (map? elt1) (map? elt2))
