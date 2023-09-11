@@ -7,7 +7,7 @@ Our goal is to provide a collection of _simple_, batteries-included components t
 ## Components
 ### Text Fields 
 
-```
+```clojure
 (require '[easyreagent.components :as er])
 (require '[reagent.core :as r])
 
@@ -25,7 +25,7 @@ Our goal is to provide a collection of _simple_, batteries-included components t
 
 ## Popup Menus
 
-```
+```clojure
 (def is-shown (r/atom false))
 [er/popup-menu is-shown]
 ```
