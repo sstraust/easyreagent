@@ -124,5 +124,8 @@ goog.addDependency("../reagent/impl/template.js", ['reagent.impl.template'], ['r
 goog.addDependency("../cljsjs/react-dom/development/react-dom.inc.js", ['react_dom', 'cljsjs.react.dom'], ['react'], {'foreign-lib': true});
 goog.addDependency("../reagent/dom.js", ['reagent.dom'], ['reagent.impl.util', 'reagent.impl.protocols', 'reagent.ratom', 'cljs.core', 'reagent.impl.template', 'reagent.impl.batching', 'reagent.impl.input', 'react_dom']);
 goog.addDependency("../easyreagent/create_component.js", ['easyreagent.create_component'], ['cljs.core']);
+goog.addDependency("../cljss/utils.js", ['cljss.utils'], ['cljs.core', 'clojure.string']);
+goog.addDependency("../cljss/sheet.js", ['cljss.sheet'], ['goog.dom', 'cljs.core', 'goog.object', 'cljss.utils']);
+goog.addDependency("../cljss/core.js", ['cljss.core'], ['cljs.core', 'cljss.sheet', 'clojure.string', 'cljss.utils']);
 goog.addDependency("../reagent/core.js", ['reagent.core'], ['reagent.impl.util', 'reagent.impl.protocols', 'reagent.ratom', 'react', 'cljs.core', 'reagent.impl.template', 'reagent.impl.batching', 'reagent.impl.component', 'reagent.debug']);
-goog.addDependency("../easyreagent/components.js", ['easyreagent.components'], ['reagent.dom', 'easyreagent.create_component', 'reagent.core', 'cljs.core']);
+goog.addDependency("../easyreagent/components.js", ['easyreagent.components'], ['reagent.dom', 'easyreagent.create_component', 'goog.string', 'cljss.core', 'reagent.core', 'cljs.core']);

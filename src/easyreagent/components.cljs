@@ -2,10 +2,54 @@
   (:require 
    [reagent.dom :as rdom]
    [easyreagent.create-component :refer [with-attr-map]]
+   [goog.string :as gstr]
+   [cljss.core]
    [reagent.core :as r])
-  (:require-macros [easyreagent.create-component-macros :refer [defc]]))
+  (:require-macros [easyreagent.create-component-macros :refer [defc]]
+                   [cljss.core :refer [inject-global]]))
 
-
+(inject-global
+ {:v-box {:display "flex"
+          :flex-direction "column"}
+  :h-box {:display "flex"
+          :flex-direction "row"}
+  :.er-popup-window-container {:position "fixed"
+                               :left "0px"
+                               :top "0px"
+                               :width "100%"
+                               :height "100%"
+                               :z-index 1020}
+  :.er-popup-window-background {:position "fixed"
+                                :left "0px"
+                                :top "0px"
+                                :width "100%"
+                                :height "100%"
+                                :background-color "black"
+                                :opacity 0.7
+                                :z-index -1}
+  :.er-popup-window {:margin-top "5%"
+                     :margin-left "auto"
+                     :margin-right "auto"
+                     :background-color "white"
+                     :width "fit-content"
+                     :padding "16px"
+                     :padding-left "25px"
+                     :border-radius "16px"}
+  :.er-x-out  {:float "right"
+              :font-size "24px"
+               :font-weight "500"
+               :margin-left "5px"
+               :position "relative"
+               :top "-15px"
+               :left "5px"}
+  :.er-x-out:hover {:color "green"
+                    :text-decoration "none"
+                    :cursor "pointer"}
+  :.er-x-out:focus {:color "green"
+                    :text-decoration "none"
+                    :cursor "pointer"}
+  })
+;; asdf
 (defc text-field [curr-value-atom]
   [:input {:on-change (fn [val] (reset! curr-value-atom (-> val .-target .-value)))
            :on-key-down (fn [event]
@@ -31,25 +75,64 @@
         (str (mod hours 60) ":" (mod minutes 60) ":" (mod seconds 60)))))
 
 (defn- reset-timer-and-check-end [curr-time end-time time-ended]
-  (if @time-ended (reset! curr-time end-time)
-      (if (> @curr-time end-time)
-        (do (reset! time-ended true))
-        (reset! curr-time (.now js/Date)))))
+  (if @time-ended
+    (reset! curr-time end-time)
+    (if (> @curr-time end-time)
+      (do (reset! time-ended true))
+      (reset! curr-time (.now js/Date)))))
 
-(defn timer [end-time]
+;; Takes as input the end time in epoch milliseconds
+;; there's some incorrect logic in here still so you can't quite debug
+(defc timer [end-time]
   (let [curr-time (r/atom (.now js/Date))
         time-ended (r/atom false)]
-    (js/setInterval (fn [] (reset-timer-and-check-end curr-time end-time time-ended)))
+    (js/setInterval (fn [] (reset-timer-and-check-end curr-time end-time time-ended)) 100)
     (fn []
       [:div (get-date-str (- end-time @curr-time))])))
 
 (defn popup-window [options is-shown & body]
   (fn [options is-shown & body]
     (when @is-shown
-      [:div (easyreagent.create-component/merge-attrs options {:class "popout-menu"})
-       [:div {:class "btn btn-ghost"
-              :on-click (fn [] (swap! is-shown not))} "X"]
-       (into [] (concat [:<>]  body))])))
+      [:div {:class "er-popup-window-container"}
+       [:div {:class "er-popup-window-background"
+              :on-click (fn [] (reset! is-shown false))}]
+      [:div (easyreagent.create-component/merge-attrs options {:class "er-popup-window"})
+       [:div {:class "er-x-out"
+              :on-click (fn [] (reset! is-shown false))} (gstr/unescapeEntities "&times;")]
+       (into [] (concat [:<>]  body))]])))
+
+
+;; dropdown is really pure css
+;; so you don't need a special component for it
+;; you want to keep pure CSS for it, but you want to make it _easier_
+;; than the default daisyui syntax
+;; so what should it look like?
+;; maybe make a menu-items to make the styling easier?
+
+;; start with the ideal interface, and then work backwards:
+
+;; [:dropdown
+;;  [:summary "Dropdown button"]
+;;  [list-menu
+;;   [:a "link1"]
+;;   [:a "link2"]]]
+
+
+;; (if (= (take-last 2 (nth zz 2))
+;;        (list `& `body))
+;;   ;; then I want the function to check
+;;   ;; whether the first argument is a map type
+;;   ;; how should defn behave
+;;   ;; if there is no attr-map, and no optional args provided
+;;   ;; it should let attr-map 
+
+;;   `(defn ~name ~args-list
+;;      (if (not (map? ~(first args-list)))
+;;        (
+       
+     
+     
+  
 
 ;; style options
 ;; (defn popup-window [style-options is-visible & body]
