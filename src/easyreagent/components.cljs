@@ -74,11 +74,13 @@
     (if (> days 0) (str days " days")
         (str (mod hours 60) ":" (mod minutes 60) ":" (mod seconds 60)))))
 
-(defn- reset-timer-and-check-end [curr-time end-time time-ended]
+(defn- reset-timer-and-check-end [curr-time end-time time-ended attr-map]
   (if @time-ended
     (reset! curr-time end-time)
     (if (> @curr-time end-time)
-      (do (reset! time-ended true))
+      (do (reset! time-ended true)
+          (when (:on-ended attr-map)
+            ((:on-ended attr-map))))
       (reset! curr-time (.now js/Date)))))
 
 ;; Takes as input the end time in epoch milliseconds
@@ -86,7 +88,7 @@
 (defc timer [end-time]
   (let [curr-time (r/atom (.now js/Date))
         time-ended (r/atom false)]
-    (js/setInterval (fn [] (reset-timer-and-check-end curr-time end-time time-ended)) 100)
+    (js/setInterval (fn [] (reset-timer-and-check-end curr-time end-time time-ended attr-map)) 100)
     (fn []
       [:div (get-date-str (- end-time @curr-time))])))
 

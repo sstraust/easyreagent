@@ -126,12 +126,18 @@ return [cljs.core.str.cljs$core$IFn$_invoke$arity$1(days)," days"].join('');
 return [cljs.core.str.cljs$core$IFn$_invoke$arity$1(cljs.core.mod.call(null,hours,(60))),":",cljs.core.str.cljs$core$IFn$_invoke$arity$1(cljs.core.mod.call(null,minutes,(60))),":",cljs.core.str.cljs$core$IFn$_invoke$arity$1(cljs.core.mod.call(null,seconds,(60)))].join('');
 }
 });
-easyreagent.components.reset_timer_and_check_end = (function easyreagent$components$reset_timer_and_check_end(curr_time,end_time,time_ended){
+easyreagent.components.reset_timer_and_check_end = (function easyreagent$components$reset_timer_and_check_end(curr_time,end_time,time_ended,attr_map){
 if(cljs.core.truth_(cljs.core.deref.call(null,time_ended))){
 return cljs.core.reset_BANG_.call(null,curr_time,end_time);
 } else {
 if((cljs.core.deref.call(null,curr_time) > end_time)){
-return cljs.core.reset_BANG_.call(null,time_ended,true);
+cljs.core.reset_BANG_.call(null,time_ended,true);
+
+if(cljs.core.truth_(new cljs.core.Keyword(null,"on-ended","on-ended",428118347).cljs$core$IFn$_invoke$arity$1(attr_map))){
+return new cljs.core.Keyword(null,"on-ended","on-ended",428118347).cljs$core$IFn$_invoke$arity$1(attr_map).call(null);
+} else {
+return null;
+}
 } else {
 return cljs.core.reset_BANG_.call(null,curr_time,Date.now());
 }
@@ -159,7 +165,7 @@ var attr_map = null;
 var curr_time = reagent.core.atom.call(null,Date.now());
 var time_ended = reagent.core.atom.call(null,false);
 setInterval((function (){
-return easyreagent.components.reset_timer_and_check_end.call(null,curr_time,end_time,time_ended);
+return easyreagent.components.reset_timer_and_check_end.call(null,curr_time,end_time,time_ended,attr_map);
 }),(100));
 
 return (function (){
@@ -171,7 +177,7 @@ return new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMP
 var result__702__auto__ = (function (){var curr_time = reagent.core.atom.call(null,Date.now());
 var time_ended = reagent.core.atom.call(null,false);
 setInterval((function (){
-return easyreagent.components.reset_timer_and_check_end.call(null,curr_time,end_time,time_ended);
+return easyreagent.components.reset_timer_and_check_end.call(null,curr_time,end_time,time_ended,attr_map);
 }),(100));
 
 return (function (){
