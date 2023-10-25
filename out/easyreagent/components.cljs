@@ -88,8 +88,6 @@
 (defc timer [end-time]
   (let [curr-time (r/atom (.now js/Date))
         time-ended (r/atom false)]
-    (.log js/console attr-map)
-    (println attr-map)
     (js/setInterval (fn [] (reset-timer-and-check-end curr-time end-time time-ended attr-map)) 100)
     (fn []
       [:div (get-date-str (- end-time @curr-time))])))
