@@ -133,7 +133,7 @@ return cljs.core.reset_BANG_.call(null,curr_time,end_time);
 if((cljs.core.deref.call(null,curr_time) > end_time)){
 cljs.core.reset_BANG_.call(null,time_ended,true);
 
-if(cljs.core.truth_(new cljs.core.Keyword(null,"on-ended","on-ended",428118347).cljs$core$IFn$_invoke$arity$1(attr_map))){
+if((!((new cljs.core.Keyword(null,"on-ended","on-ended",428118347).cljs$core$IFn$_invoke$arity$1(attr_map) == null)))){
 return new cljs.core.Keyword(null,"on-ended","on-ended",428118347).cljs$core$IFn$_invoke$arity$1(attr_map).call(null);
 } else {
 return null;

@@ -79,7 +79,7 @@
     (reset! curr-time end-time)
     (if (> @curr-time end-time)
       (do (reset! time-ended true)
-          (when (:on-ended attr-map)
+          (when (not (nil? (:on-ended attr-map)))
             ((:on-ended attr-map))))
       (reset! curr-time (.now js/Date)))))
 
