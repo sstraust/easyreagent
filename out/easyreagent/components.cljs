@@ -75,6 +75,8 @@
         (str (mod hours 60) ":" (mod minutes 60) ":" (mod seconds 60)))))
 
 (defn- reset-timer-and-check-end [curr-time end-time time-ended attr-map]
+  (.log js/console attr-map)
+  (println attr-map)
   (if @time-ended
     (reset! curr-time end-time)
     (if (> @curr-time end-time)
