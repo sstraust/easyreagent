@@ -127,10 +127,6 @@ return [cljs.core.str.cljs$core$IFn$_invoke$arity$1(cljs.core.mod.call(null,hour
 }
 });
 easyreagent.components.reset_timer_and_check_end = (function easyreagent$components$reset_timer_and_check_end(curr_time,end_time,time_ended,attr_map){
-console.log(attr_map);
-
-cljs.core.println.call(null,attr_map);
-
 if(cljs.core.truth_(cljs.core.deref.call(null,time_ended))){
 return cljs.core.reset_BANG_.call(null,curr_time,end_time);
 } else {
@@ -168,6 +164,10 @@ throw (new Error(["Invalid arity: ",cljs.core.str.cljs$core$IFn$_invoke$arity$1(
 var attr_map = null;
 var curr_time = reagent.core.atom.call(null,Date.now());
 var time_ended = reagent.core.atom.call(null,false);
+console.log(attr_map);
+
+cljs.core.println.call(null,attr_map);
+
 setInterval((function (){
 return easyreagent.components.reset_timer_and_check_end.call(null,curr_time,end_time,time_ended,attr_map);
 }),(100));
@@ -180,6 +180,10 @@ return new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMP
 (easyreagent.components.timer.cljs$core$IFn$_invoke$arity$2 = (function (attr_map,end_time){
 var result__702__auto__ = (function (){var curr_time = reagent.core.atom.call(null,Date.now());
 var time_ended = reagent.core.atom.call(null,false);
+console.log(attr_map);
+
+cljs.core.println.call(null,attr_map);
+
 setInterval((function (){
 return easyreagent.components.reset_timer_and_check_end.call(null,curr_time,end_time,time_ended,attr_map);
 }),(100));
