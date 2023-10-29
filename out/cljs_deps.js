@@ -128,4 +128,4 @@ goog.addDependency("../cljss/utils.js", ['cljss.utils'], ['cljs.core', 'clojure.
 goog.addDependency("../cljss/sheet.js", ['cljss.sheet'], ['goog.dom', 'cljs.core', 'goog.object', 'cljss.utils']);
 goog.addDependency("../cljss/core.js", ['cljss.core'], ['cljs.core', 'cljss.sheet', 'clojure.string', 'cljss.utils']);
 goog.addDependency("../reagent/core.js", ['reagent.core'], ['reagent.impl.util', 'reagent.impl.protocols', 'reagent.ratom', 'react', 'cljs.core', 'reagent.impl.template', 'reagent.impl.batching', 'reagent.impl.component', 'reagent.debug']);
-goog.addDependency("../easyreagent/components.js", ['easyreagent.components'], ['reagent.dom', 'easyreagent.create_component', 'goog.string', 'cljss.core', 'reagent.core', 'cljs.core']);
+goog.addDependency("../easyreagent/components.js", ['easyreagent.components'], ['reagent.dom', 'easyreagent.create_component', 'goog.string', 'goog.string.format', 'cljss.core', 'reagent.core', 'cljs.core']);

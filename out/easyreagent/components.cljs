@@ -3,6 +3,7 @@
    [reagent.dom :as rdom]
    [easyreagent.create-component :refer [with-attr-map]]
    [goog.string :as gstr]
+   [goog.string.format]
    [cljss.core]
    [reagent.core :as r])
   (:require-macros [easyreagent.create-component-macros :refer [defc]]
@@ -72,7 +73,9 @@
         hours (quot minutes 60)
         days (quot hours 24)]
     (if (> days 0) (str days " days")
-        (str (mod hours 60) ":" (mod minutes 60) ":" (mod seconds 60)))))
+        (str (gstr/format "%02d" (mod hours 60)) ":"
+             (gstr/format "%02d" (mod minutes 60)) ":"
+             (gstr/format "%02d" (mod seconds 60))))))
 
 (defn- reset-timer-and-check-end [curr-time end-time time-ended attr-map]
   (if @time-ended
