@@ -73,7 +73,8 @@
         hours (quot minutes 60)
         days (quot hours 24)]
     (if (> days 0) (str days " days")
-        (str (gstr/format "%02d" (mod hours 60)) ":"
+        (str (when (> (mod hours 60) 0)
+               (gstr/format "%02d" (mod hours 60)) ":")
              (gstr/format "%02d" (mod minutes 60)) ":"
              (gstr/format "%02d" (mod seconds 60))))))
 
