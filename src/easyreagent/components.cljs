@@ -9,6 +9,30 @@
   (:require-macros [easyreagent.create-component-macros :refer [defc]]
                    [cljss.core :refer [inject-global]]))
 
+(def easyreagent-global-elements (r/atom []))
+(def easyreagent-global-elements-id "easyreagentGlobalState")
+;; (reset! easyreagent-global-elements [])
+
+(defn global-state-component []
+  [:div (for [elt @easyreagent-global-elements]
+                           elt)])
+
+(defn add-component-to-global-state [new-component]
+  (let [curr-global (.getElementById js/document easyreagent-global-elements-id)]
+    (when (not curr-global)
+      (let [new-elt (.createElement js/document "div")]
+        (set! (.-id new-elt) easyreagent-global-elements-id)
+        (.appendChild (.-body js/document) new-elt))
+      (rdom/render [global-state-component]
+                   (.getElementById js/document easyreagent-global-elements-id)))
+  (swap! easyreagent-global-elements conj new-component)))
+
+
+      
+
+
+
+
 (inject-global
  {:v-box {:display "flex"
           :flex-direction "column"}
@@ -35,6 +59,7 @@
                      :width "fit-content"
                      :padding "16px"
                      :padding-left "25px"
+                     :padding-right "20px"
                      :border-radius "16px"}
   :.er-x-out  {:float "right"
               :font-size "24px"
@@ -49,6 +74,9 @@
   :.er-x-out:focus {:color "green"
                     :text-decoration "none"
                     :cursor "pointer"}
+  ".er-modal-info-container-div > .er-modal-info-text-wrapper" {:display "none"}
+  ".er-modal-info-container-div:hover > .er-modal-info-text-wrapper" {:display "block"}
+  ".er-modal-info-text-wrapper:hover" {:display "block"}
   })
 ;; asdf
 (defc text-field [curr-value-atom]
@@ -102,62 +130,92 @@
       [:div {:class "er-popup-window-container"}
        [:div {:class "er-popup-window-background"
               :on-click (fn [] (reset! is-shown false))}]
-      [:div (easyreagent.create-component/merge-attrs options {:class "er-popup-window"})
-       [:div {:class "er-x-out"
-              :on-click (fn [] (reset! is-shown false))} (gstr/unescapeEntities "&times;")]
+      [:v-box (easyreagent.create-component/merge-attrs options {:class "er-popup-window"})
+       [:div {:style {:height "1rem"}} [:div {:class "er-x-out"
+              :on-click (fn [] (reset! is-shown false))} (gstr/unescapeEntities "&times;")]]
        (into [] (concat [:<>]  body))]])))
 
 
-;; dropdown is really pure css
-;; so you don't need a special component for it
-;; you want to keep pure CSS for it, but you want to make it _easier_
-;; than the default daisyui syntax
-;; so what should it look like?
-;; maybe make a menu-items to make the styling easier?
+(defn create-popup
+  ([is-shown content] (create-popup nil is-shown content))
+  ([options is-shown content]
+   (add-component-to-global-state [popup-window options is-shown content])))
 
-;; start with the ideal interface, and then work backwards:
-
-;; [:dropdown
-;;  [:summary "Dropdown button"]
-;;  [list-menu
-;;   [:a "link1"]
-;;   [:a "link2"]]]
-
-
-;; (if (= (take-last 2 (nth zz 2))
-;;        (list `& `body))
-;;   ;; then I want the function to check
-;;   ;; whether the first argument is a map type
-;;   ;; how should defn behave
-;;   ;; if there is no attr-map, and no optional args provided
-;;   ;; it should let attr-map 
-
-;;   `(defn ~name ~args-list
-;;      (if (not (map? ~(first args-list)))
-;;        (
-       
-     
-     
+(defn submit-button
+  ([content] [submit-button nil content])
+  ([options content]
+   [:h-box.w-full.justify-end.er-submit-button-container
+    [:button options content]]))
   
 
-;; style options
-;; (defn popup-window [style-options is-visible & body]
-;;   (let [style-options (if (map? style-options) style-options nil)
-;;         is-visible (if (atom? style-map)
-;;                      (
-  
-;; the problem is you don't know the right way to set up your
-;; optional argumnets but also pass in varargs
+(defn create-alert
+  ([content]
+   (create-alert nil content))
+  ([options content]
+   (let [is-shown (r/atom true)]
+     (create-popup options is-shown
+                   [:v-box.er-alert-popup-container
+                    content
+                    [submit-button {:on-click (fn [] (reset! is-shown false))} "Got It"]]))))
 
-;; you also need to make sure daisyui is imported correctly
-;; so the behavior for varargs is:
-;; if the first argument is a map, add it to the attrs
-;; otherwise do nothing
-
-;; it seems like it doesn't really make sense for the values to be a body and then args
-;; but it's weird because you want it to be simple to type, and named args aren't simple
-
-;; I think it's ok if there's like 1 atom, but if there's more than one you should use a map?
-;; I'm not really sure
+(defn- rand-id []
+  (str "id-" (.floor js/Math (* 1000000 (.random js/Math)))
+       (.floor js/Math (* 1000000 (.random js/Math)))))
 
 
+(def modal-info-view-width 500)
+(defc with-modal-info [description content]
+  (let [is-shown (r/atom false)
+        curr-id (rand-id)
+        curr-pos-x (r/atom nil)
+        curr-pos-y (r/atom nil)
+        bounding-rect (r/atom nil)]
+    (fn []
+      [:div.er-modal-info-container-div
+       {:id curr-id
+        :on-mouse-over
+        (fn [e]
+          (.log js/console curr-id)
+          (when (not (= (.-left (.getBoundingClientRect (.getElementById js/document curr-id))) @curr-pos-x))
+            (reset! curr-pos-x
+                    (.-left (.getBoundingClientRect (.getElementById js/document curr-id)))))
+          (when (not (= (.getBoundingClientRect (.getElementById js/document curr-id))
+                        @bounding-rect))
+            (reset! bounding-rect
+                    (.getBoundingClientRect (.getElementById js/document curr-id))))
+          (when (not (= (.-top (.getBoundingClientRect (.getElementById js/document curr-id))) @curr-pos-y))
+            (reset! curr-pos-y
+                    (.-top (.getBoundingClientRect (.getElementById js/document curr-id)))))
+          (when (not @is-shown)
+            (reset! is-shown true)))}
+          content
+       (when @is-shown
+         (let [position-map
+               (case (:anchor-position attr-map)
+                 :right {:top @curr-pos-y
+                         :left (.-right @bounding-rect)}
+                 :bottom {:top (.-bottom @bounding-rect)
+                          :left (.-left @bounding-rect)}
+                 :top {:top  @curr-pos-y
+                       :left (.-left @bounding-rect)}
+                 {:top @curr-pos-y
+                  :left @curr-pos-x})]
+         [:div.er-modal-info-text-wrapper
+          {:style (merge {:position "fixed"
+                          :z-index 10}
+                         position-map)}
+          [:div {:style (case (:anchor-position attr-map)
+                          :right {:position "absolute"
+                                  :left 0
+                                  :top 0}
+                          :bottom {:position "absolute"
+                                   :left 0
+                                   :top 0}
+                          :top {:position "absolute"
+                                :left 0
+                                :bottom 0}
+                          {:position "absolute"
+                                 :right 0
+                                 :top 0})}
+           [:div.er-modal-info-text
+            [:div description]]]]))])))

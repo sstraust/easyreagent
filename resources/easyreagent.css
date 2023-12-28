@@ -1,0 +1,29 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.er-modal-info-text {
+    @apply text-base-content bg-base-100 border-base-content border-solid border-2
+    m-1;
+    width: fit-content;
+    height: fit-content;
+}
+
+.er-alert-popup-container {
+    @apply min-w-64 pl-2;
+}
+.er-submit-button-container {
+    @apply mt-4;
+}
+
+.er-popup-window {
+    @apply min-w-64 min-h-20;
+}
+
+button {
+    @apply btn btn-primary btn-sm;
+}
+
+body {
+    /* background-color: red; */
+}

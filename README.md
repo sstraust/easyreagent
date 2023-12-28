@@ -13,7 +13,8 @@ Our goal is to provide a collection of _simple_, batteries-included components t
 (require '[easyreagent.components :as er])
 (require '[reagent.core :as r])
 
-(def field-value (r/atom ""))
+;; this can also take an r/atom if you need stuff to depend on it
+(def field-value (atom ""))
 
 ;; field-value is kept up to date w/ what the user types into the text field
 [er/text-field field-value]
@@ -43,6 +44,11 @@ Our goal is to provide a collection of _simple_, batteries-included components t
 ;; optional style maps are not yet supported for popup menus
 [er/popup-menu {} is-shown "Hi!"]
 ```
+
+## Styling
+Easyreagent Components are styled to look nice using TailwindCSS and DaisyUI. 
+
+To use the default styling, include resources/global_output.css in your HTML. If you want to use a custom theme, you can rebuild resources/easyreagent.css with your own tailwind.config.js.
 
 ## Design philosophy
 
