@@ -102,7 +102,7 @@
         days (quot hours 24)]
     (if (> days 0) (str days " days")
         (str (when (> hours 0)
-               (gstr/format "%02d" hours) ":")
+               (str (gstr/format "%02d" hours) ":"))
              (gstr/format "%02d" (mod minutes 60)) ":"
              (gstr/format "%02d" (mod seconds 60))))))
 
