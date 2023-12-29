@@ -59,6 +59,7 @@
                      :width "fit-content"
                      :padding "16px"
                      :padding-left "25px"
+                     :padding-right "20px"
                      :border-radius "16px"}
   :.er-x-out  {:float "right"
               :font-size "24px"
@@ -129,9 +130,9 @@
       [:div {:class "er-popup-window-container"}
        [:div {:class "er-popup-window-background"
               :on-click (fn [] (reset! is-shown false))}]
-      [:div (easyreagent.create-component/merge-attrs options {:class "er-popup-window"})
-       [:div {:class "er-x-out"
-              :on-click (fn [] (reset! is-shown false))} (gstr/unescapeEntities "&times;")]
+      [:v-box (easyreagent.create-component/merge-attrs options {:class "er-popup-window"})
+       [:div {:style {:height "1rem"}} [:div {:class "er-x-out"
+              :on-click (fn [] (reset! is-shown false))} (gstr/unescapeEntities "&times;")]]
        (into [] (concat [:<>]  body))]])))
 
 
@@ -143,7 +144,7 @@
 (defn submit-button
   ([content] [submit-button nil content])
   ([options content]
-   [:h-box.w-full.justify-end
+   [:h-box.w-full.justify-end.er-submit-button-container
     [:button options content]]))
   
 
@@ -153,7 +154,7 @@
   ([options content]
    (let [is-shown (r/atom true)]
      (create-popup options is-shown
-                   [:v-box
+                   [:v-box.er-alert-popup-container
                     content
                     [submit-button {:on-click (fn [] (reset! is-shown false))} "Got It"]]))))
 
@@ -169,7 +170,7 @@
         curr-pos-x (r/atom nil)
         curr-pos-y (r/atom nil)
         bounding-rect (r/atom nil)]
-    (fn []
+    (fn [description content]
       [:div.er-modal-info-container-div
        {:id curr-id
         :on-mouse-over
@@ -218,3 +219,60 @@
                                  :top 0})}
            [:div.er-modal-info-text
             [:div description]]]]))])))
+
+
+(println (macroexpand-1 '(defc with-modal-info [description content]
+  (let [is-shown (r/atom false)
+        curr-id (rand-id)
+        curr-pos-x (r/atom nil)
+        curr-pos-y (r/atom nil)
+        bounding-rect (r/atom nil)]
+    (fn [description content]
+      [:div.er-modal-info-container-div
+       {:id curr-id
+        :on-mouse-over
+        (fn [e]
+          (.log js/console curr-id)
+          (when (not (= (.-left (.getBoundingClientRect (.getElementById js/document curr-id))) @curr-pos-x))
+            (reset! curr-pos-x
+                    (.-left (.getBoundingClientRect (.getElementById js/document curr-id)))))
+          (when (not (= (.getBoundingClientRect (.getElementById js/document curr-id))
+                        @bounding-rect))
+            (reset! bounding-rect
+                    (.getBoundingClientRect (.getElementById js/document curr-id))))
+          (when (not (= (.-top (.getBoundingClientRect (.getElementById js/document curr-id))) @curr-pos-y))
+            (reset! curr-pos-y
+                    (.-top (.getBoundingClientRect (.getElementById js/document curr-id)))))
+          (when (not @is-shown)
+            (reset! is-shown true)))}
+          content
+       (when @is-shown
+         (let [position-map
+               (case (:anchor-position attr-map)
+                 :right {:top @curr-pos-y
+                         :left (.-right @bounding-rect)}
+                 :bottom {:top (.-bottom @bounding-rect)
+                          :left (.-left @bounding-rect)}
+                 :top {:top  @curr-pos-y
+                       :left (.-left @bounding-rect)}
+                 {:top @curr-pos-y
+                  :left @curr-pos-x})]
+         [:div.er-modal-info-text-wrapper
+          {:style (merge {:position "fixed"
+                          :z-index 10}
+                         position-map)}
+          [:div {:style (case (:anchor-position attr-map)
+                          :right {:position "absolute"
+                                  :left 0
+                                  :top 0}
+                          :bottom {:position "absolute"
+                                   :left 0
+                                   :top 0}
+                          :top {:position "absolute"
+                                :left 0
+                                :bottom 0}
+                          {:position "absolute"
+                                 :right 0
+                                 :top 0})}
+           [:div.er-modal-info-text
+            [:div description]]]]))])))))
