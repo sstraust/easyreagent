@@ -101,8 +101,8 @@
         hours (quot minutes 60)
         days (quot hours 24)]
     (if (> days 0) (str days " days")
-        (str (when (> (mod hours 60) 0)
-               (gstr/format "%02d" (mod hours 60)) ":")
+        (str (when (> hours 0)
+               (gstr/format "%02d" hours) ":")
              (gstr/format "%02d" (mod minutes 60)) ":"
              (gstr/format "%02d" (mod seconds 60))))))
 
@@ -219,60 +219,3 @@
                                  :top 0})}
            [:div.er-modal-info-text
             [:div description]]]]))])))
-
-
-(println (macroexpand-1 '(defc with-modal-info [description content]
-  (let [is-shown (r/atom false)
-        curr-id (rand-id)
-        curr-pos-x (r/atom nil)
-        curr-pos-y (r/atom nil)
-        bounding-rect (r/atom nil)]
-    (fn [description content]
-      [:div.er-modal-info-container-div
-       {:id curr-id
-        :on-mouse-over
-        (fn [e]
-          (.log js/console curr-id)
-          (when (not (= (.-left (.getBoundingClientRect (.getElementById js/document curr-id))) @curr-pos-x))
-            (reset! curr-pos-x
-                    (.-left (.getBoundingClientRect (.getElementById js/document curr-id)))))
-          (when (not (= (.getBoundingClientRect (.getElementById js/document curr-id))
-                        @bounding-rect))
-            (reset! bounding-rect
-                    (.getBoundingClientRect (.getElementById js/document curr-id))))
-          (when (not (= (.-top (.getBoundingClientRect (.getElementById js/document curr-id))) @curr-pos-y))
-            (reset! curr-pos-y
-                    (.-top (.getBoundingClientRect (.getElementById js/document curr-id)))))
-          (when (not @is-shown)
-            (reset! is-shown true)))}
-          content
-       (when @is-shown
-         (let [position-map
-               (case (:anchor-position attr-map)
-                 :right {:top @curr-pos-y
-                         :left (.-right @bounding-rect)}
-                 :bottom {:top (.-bottom @bounding-rect)
-                          :left (.-left @bounding-rect)}
-                 :top {:top  @curr-pos-y
-                       :left (.-left @bounding-rect)}
-                 {:top @curr-pos-y
-                  :left @curr-pos-x})]
-         [:div.er-modal-info-text-wrapper
-          {:style (merge {:position "fixed"
-                          :z-index 10}
-                         position-map)}
-          [:div {:style (case (:anchor-position attr-map)
-                          :right {:position "absolute"
-                                  :left 0
-                                  :top 0}
-                          :bottom {:position "absolute"
-                                   :left 0
-                                   :top 0}
-                          :top {:position "absolute"
-                                :left 0
-                                :bottom 0}
-                          {:position "absolute"
-                                 :right 0
-                                 :top 0})}
-           [:div.er-modal-info-text
-            [:div description]]]]))])))))
