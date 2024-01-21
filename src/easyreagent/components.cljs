@@ -27,12 +27,6 @@
                    (.getElementById js/document easyreagent-global-elements-id)))
   (swap! easyreagent-global-elements conj new-component)))
 
-
-      
-
-
-
-
 (inject-global
  {:v-box {:display "flex"
           :flex-direction "column"}
