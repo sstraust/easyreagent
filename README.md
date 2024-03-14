@@ -71,7 +71,7 @@ Stuff built with easyreagent:
 ;; attach modal content to an existing element (display on hover)
 ;; this uses an anchor with  position:fixed, so the modal text
 ;; will display above other z-indexed content
-[er/with-modal-info {:anchor-position pos
+[er/with-modal-info {:anchor-position :bottom
                        :style {:margin 50}}
    [:div modal-text]
    [:div {:style {:background-color "green"}} "main text"]]
