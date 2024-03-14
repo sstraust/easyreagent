@@ -85,9 +85,9 @@ Stuff built with easyreagent:
 ;; Create an alert
 (er/create-alert [:div  "Alert!"])
 ```
-If you want something that's not listed here, lmk and I'll build it (open a github issue)
+If you want something that's not listed here, lmk (open a github issue)
 
-I want to make this a good library :D
+I want to make this a good library, and I _will_ build it (within reason) :D
 
 # Installation
 To get this library, add
