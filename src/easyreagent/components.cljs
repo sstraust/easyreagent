@@ -89,6 +89,18 @@
               :value @curr-value-atom
               :class "input input-xs input-bordered w-full max-w-xs"}])
 
+(defc checkbox [is-checked-atom]
+  [:input {:type "checkbox"
+           :checked @is-checked-atom
+           :on-click (fn [] (swap! is-checked-atom not))}])
+
+(defc slider [current-value-atom min max]
+  [:input {:type "range" :min min :max max :value @current-value-atom
+           :style {:float "left"
+                   :width "100%"
+                   :margin-top 3}
+           :on-change (fn [val] (reset! current-value-atom (-> val .-target .-value)))}])
+
 (defn- get-date-str [time-millis]
   (let [seconds (quot time-millis 1000)
         minutes (quot seconds 60)

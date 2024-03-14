@@ -1,14 +1,19 @@
 # EasyReagent
 
-EasyReagent is currently _in development_. Stuff might not work yet, but we're working on it.
+EasyReagent is a library of [Reagent](https://reagent-project.github.io) components that's designed to be, well, easy.
 
-EasyReagent is a library of React components that's designed to be, well, easy.
+Our goal is  _simple_, batteries-included components that look good by default.
 
-Our goal is to provide a collection of _simple_, batteries-included components that look good by default. We use daisyui for styling.
+We use the same (hiccup-like) syntax as Reagent, so if you know how to use Reagent, you'll know how to use this library.
+
+[How to Install](#Installation)
+
+Stuff built with easyreagent:
+* [sprinklz.io](https://sprinklz.io)
+* [wordfinder9000](https://wordfinder9000.com/)
 
 ## Components
 ### Text Fields 
-
 ```clojure
 (require '[easyreagent.components :as er])
 (require '[reagent.core :as r])
@@ -23,6 +28,24 @@ Our goal is to provide a collection of _simple_, batteries-included components t
 
 ;; custom styling
 [er/text-field {:style {:width 300}} field-value]
+```
+### Other Types of Input
+```clojure
+;; checkbox
+(def is-checked-atom (r/atom false))
+
+[er/checkbox is-checked-atom]
+[er/checkbox {:class "checkbox"} is-checked-atom]
+
+;; slider
+(def current-value-atom (r/atom 5))
+(def min-val 0)
+(def max-val 10)
+
+[er/slider current-value-atom min-val max-val]
+[er/slider {:style {:accent-color "green"}} current-value-atom min-val max-val]
+
+
 ```
 ### Timer
 ```clojure
@@ -60,17 +83,33 @@ Our goal is to provide a collection of _simple_, batteries-included components t
 ;; Create an alert
 (er/create-alert [:div  "Alert!"])
 ```
+If you want something that's not listed here, lmk and I'll build it (open a github issue)
 
-## Styling
-Easyreagent Components are styled to look nice using TailwindCSS and DaisyUI. 
+I want to make this a good library :D
 
-To use the default styling, include resources/global_output.css in your HTML. If you want to use a custom theme, you can rebuild resources/easyreagent.css with your own tailwind.config.js.
+# Installation
+To get this library, add
+```
+io.github.sstraust/easyreagent {:git/url "https://github.com/sstraust/easyreagent.git"
+                                         :git/sha "3646fcde540d8da07449f0e9c2efaeb2083d3347"}
+```
+to your deps.edn file.
+
+
+### Installing CSS Files
+To get our stylining, download the file easyreagent.css, and import it from your main CSS file.
+
+EasyReagent uses [DaisyUI](https://daisyui.com/) (a Tailwind library) for CSS. You want easyreagent.css to be in the list of 'content' files in your tailwind.config.js.
+
+You're not required to use the same styling as we do, but if you don't use daisyUI, some styles might not look as nice. 
+
 
 ## Design philosophy
 
-Work well with existing tools. Let people use vanilla reagent/CSS/styling when possible. Rely on pure CSS components when they exist.
+* Work well with existing tools. 
+* Use vanilla reagent/CSS/styling when possible.
+* Don't build new components unless you actually need it (if you want a button, it's ok to use the :button tag).
 
-Don't build new react components unless you actually need it, but _do_ provide simple wrappers when useful.
 
 
 ### For Developers
