@@ -87,7 +87,9 @@ Stuff built with easyreagent:
 ```
 If you want something that's not listed here, lmk (open a github issue)
 
-I want to make this a good library, and I _will_ build it (within reason) :D
+I want to make this a good library, and I _will_ build it :D
+
+(within reason)
 
 # Installation
 To get this library, add
