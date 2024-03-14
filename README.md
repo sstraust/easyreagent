@@ -35,6 +35,7 @@ Stuff built with easyreagent:
 (def is-checked-atom (r/atom false))
 
 [er/checkbox is-checked-atom]
+;; with custom style
 [er/checkbox {:class "checkbox"} is-checked-atom]
 
 ;; slider
@@ -43,6 +44,7 @@ Stuff built with easyreagent:
 (def max-val 10)
 
 [er/slider current-value-atom min-val max-val]
+;; with custom style
 [er/slider {:style {:accent-color "green"}} current-value-atom min-val max-val]
 
 
@@ -91,7 +93,7 @@ I want to make this a good library :D
 To get this library, add
 ```
 io.github.sstraust/easyreagent {:git/url "https://github.com/sstraust/easyreagent.git"
-                                         :git/sha "3646fcde540d8da07449f0e9c2efaeb2083d3347"}
+                                         :git/sha "5cc59542e769dd90ef7d167cc48cac431b12bdeb"}
 ```
 to your deps.edn file.
 
