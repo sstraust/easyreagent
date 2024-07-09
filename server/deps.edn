@@ -1,0 +1,10 @@
+{
+  :deps {
+         org.clojure/clojure {:mvn/version "1.11.1"}
+         environ/environ {:mvn/version "1.2.0"}
+         ring/ring {:mvn/version "1.11.0-RC1"}
+         bk/ring-gzip {:mvn/version "0.3.0"}
+         ring/ring-jetty-adapter {:mvn/version "1.11.0-RC1"}
+         org.ring-clojure/ring-websocket-protocols {:mvn/version "1.11.0-RC1"}
+  }
+}
