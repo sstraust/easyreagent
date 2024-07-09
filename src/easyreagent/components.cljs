@@ -85,7 +85,12 @@
 (defc text-area [curr-value-atom]
   [:textarea {:on-change (fn [val] (do
                                      (reset! curr-value-atom (-> val .-target .-value))
-                                     ((:additional-on-change attr-map))))
+                                     (when (not (nil? (:additional-on-change attr-map)))
+                                       ((:additional-on-change attr-map)))))
+              :on-key-down (fn [event]
+                             (when (and (= 13 (.-keyCode event))
+                                        (not (nil? (:on-enter attr-map))))
+                               ((:on-enter attr-map))))
               :value @curr-value-atom
               :class "input input-xs input-bordered w-full max-w-xs"}])
 
@@ -130,6 +135,27 @@
     (fn []
       [:div (get-date-str (- end-time @curr-time))])))
 
+;; (+ (.now js/Date) 1000)
+
+(defc pausable-timer [secs-left]
+  (let [start-time (.now js/Date)
+        time-ended (r/atom false)]
+    (js/setInterval (fn []
+                      (when (and (> @secs-left 0)
+                                 (not
+                                  (and
+                                   (:is-timer-paused attr-map)
+                                   ((:is-timer-paused attr-map)))))
+                        (swap! secs-left dec))
+                      (when (and (= @secs-left 0)
+                                 (not @time-ended)
+                                 (not (nil? (:on-ended attr-map))))
+                        
+                        ((:on-ended attr-map))
+                        (reset! time-ended true))) 1000)
+    (fn []
+      [:div (get-date-str (* 1000 @secs-left))])))
+
 (defn popup-window [options is-shown & body]
   (fn [options is-shown & body]
     (when @is-shown
@@ -171,7 +197,7 @@
 
 (def modal-info-view-width 500)
 (defc with-modal-info [description content]
-  (let [is-shown (r/atom false)
+  (let [is-shown (or (:is-shown attr-map (r/atom false)))
         curr-id (rand-id)
         curr-pos-x (r/atom nil)
         curr-pos-y (r/atom nil)
@@ -192,7 +218,8 @@
           (when (not (= (.-top (.getBoundingClientRect (.getElementById js/document curr-id))) @curr-pos-y))
             (reset! curr-pos-y
                     (.-top (.getBoundingClientRect (.getElementById js/document curr-id)))))
-          (when (not @is-shown)
+          (when (and (not @is-shown)
+                     (not (:is-shown attr-map)))
             (reset! is-shown true)))}
           content
        (when @is-shown
