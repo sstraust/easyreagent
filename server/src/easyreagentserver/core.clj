@@ -24,7 +24,7 @@
   (sh/proc "npx" "tailwindcss"
            "-i" "./resources/global.css"
            "-o" "./resources/global_output.css"
-           "--watch=always" :dir "gptmetatagsjs"))
+           "--watch=always" :dir js-dir))
 (def start-tailwind-server (memoize start-tailwind-server-uncached))
 
 
