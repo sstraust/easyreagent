@@ -3,6 +3,7 @@
             [ring.adapter.jetty :as ring]
             [compojure.route :as route]
             [compojure.core]
+            [ring.middleware.json :refer [wrap-json-body wrap-json-params]]
             [ring.middleware.gzip :refer [wrap-gzip]]
             [ring.middleware.cookies :refer [wrap-cookies]]
             [ring.middleware.keyword-params :refer [wrap-keyword-params]]
@@ -44,8 +45,9 @@
     (reset! web-server (ring/run-jetty
                         (wrap-gzip
                          (wrap-cookies
+                          (wrap-json-params
                           (wrap-params
-                           (wrap-keyword-params all-routes))))
+                           (wrap-keyword-params all-routes)))))
                         options))
     (println "Server is running on port " (:port options))))
                       
