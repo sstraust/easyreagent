@@ -41,13 +41,14 @@
         css-routes (route/files "/resources" {:root (str js-dir "/resources")})
         all-routes (compojure.core/routes routes
                                           javascript-routes
-                                          css-routes)]
+                                          css-routes)
+        extra-wrappers (or (:extra-wrappers options) identity)]
     (reset! web-server (ring/run-jetty
-                        (wrap-gzip
+                        (extra-wrappers (wrap-gzip
                          (wrap-cookies
                           (wrap-json-params
                           (wrap-params
-                           (wrap-keyword-params all-routes)))))
+                           (wrap-keyword-params all-routes))))))
                         options))
     (println "Server is running on port " (:port options))))
                       
