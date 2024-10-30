@@ -73,7 +73,8 @@
   ".er-modal-info-text-wrapper:hover" {:display "block"}
   })
 ;; asdf
-(defc text-field [curr-value-atom]
+(defc text-field
+  [curr-value-atom]
   [:input {:on-change (fn [val] (reset! curr-value-atom (-> val .-target .-value)))
            :on-key-down (fn [event]
                           (when (and (= 13 (.-keyCode event))

@@ -3,6 +3,7 @@
             [ring.adapter.jetty :as ring]
             [compojure.route :as route]
             [compojure.core]
+            [clojure.data.json :as json]
             [ring.middleware.json :refer [wrap-json-body wrap-json-params]]
             [ring.middleware.gzip :refer [wrap-gzip]]
             [ring.middleware.cookies :refer [wrap-cookies]]
@@ -53,4 +54,23 @@
     (println "Server is running on port " (:port options))))
                       
   
+(defn success-response []
+  {:status 200
+   :headers {"Content-type" "application/json"}
+   :body (json/write-str {:result "success"})})
 
+(defn failure-response [message]
+  {:status 200
+   :headers {"Content-type" "application/json"}
+   :body (json/write-str {:result "failure"
+                          :reason message})})
+
+(defn json-response [clojure-map]
+  {:status 200
+   :headers {"Content-type" "application/json"}
+   :body (json/write-str clojure-map)})
+
+(defn param-as-list [param-val]
+  (if (vector? param-val)
+    param-val
+    (list param-val)))
