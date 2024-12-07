@@ -1,0 +1,3 @@
+{:hooks
+ {:macroexpand
+  {easyreagent.create-component-macros/defc create-component-macros/defc}}}

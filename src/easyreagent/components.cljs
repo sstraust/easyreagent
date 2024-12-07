@@ -5,7 +5,8 @@
    [goog.string :as gstr]
    [goog.string.format]
    [cljss.core]
-   [reagent.core :as r])
+   [reagent.core :as r]
+   ["react-phone-number-input$default" :as PhoneInput])
   (:require-macros [easyreagent.create-component-macros :refer [defc]]
                    [cljss.core :refer [inject-global]]))
 
@@ -253,3 +254,18 @@
                                  :top 0})}
            [:div.er-modal-info-text
             [:div description]]]]))])))
+
+(defn heroed-content [& contents]
+  [:div.hero
+   [:div.hero-content
+    (into [] (concat [:<>] contents))]])
+
+(defc phone-input-us [phone-number-atom]
+  [(r/adapt-react-class PhoneInput)
+   {:placeholder "e.g. 321 456 7890"
+    :class "input input-bordered input-sm w-full phone-input"
+    :value @phone-number-atom
+    :defaultCountry "US"
+    :addInternationalOption false
+    :countries ["US"]
+    :onChange (fn [val] (reset! phone-number-atom val))}])

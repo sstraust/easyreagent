@@ -45,11 +45,12 @@
                                           css-routes)
         extra-wrappers (or (:extra-wrappers options) identity)]
     (reset! web-server (ring/run-jetty
-                        (extra-wrappers (wrap-gzip
+                        (wrap-gzip
                          (wrap-cookies
                           (wrap-json-params
                           (wrap-params
-                           (wrap-keyword-params all-routes))))))
+                           (wrap-keyword-params
+                             (extra-wrappers all-routes))))))
                         options))
     (println "Server is running on port " (:port options))))
                       
@@ -68,9 +69,12 @@
 (defn json-response [clojure-map]
   {:status 200
    :headers {"Content-type" "application/json"}
-   :body (json/write-str clojure-map)})
+   :body (json/write-str
+          (assoc clojure-map :easyreagent-result-type "json"))})
 
 (defn param-as-list [param-val]
   (if (vector? param-val)
     param-val
     (list param-val)))
+(defn uuid []
+  (apply str (into [] (repeatedly 5 #(rand-int 1000)))))

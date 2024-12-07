@@ -1,5 +1,6 @@
 (ns easyreagent.util
- (:require [cljs.core.async :refer [<!]]
+  (:require-macros [easyreagent.util])
+  (:require [cljs.core.async :refer [<!]]
             [cljs-http.client :as http]))
 
 (def curr-css (atom nil))

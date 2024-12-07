@@ -7,5 +7,8 @@
          ring/ring-jetty-adapter {:mvn/version "1.11.0-RC1"}
          ring/ring-json {:mvn/version "0.5.1"}
          org.ring-clojure/ring-websocket-protocols {:mvn/version "1.11.0-RC1"}
+         com.twilio.sdk/twilio {:mvn/version "10.1.1"}
+         clj-python/libpython-clj {:mvn/version "2.025"}
+         com.googlecode.libphonenumber/libphonenumber {:mvn/version "8.13.45"}
   }
 }

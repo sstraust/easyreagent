@@ -12,7 +12,7 @@ Stuff built with easyreagent:
 * [sprinklz.io](https://sprinklz.io)
 * [wordfinder9000](https://wordfinder9000.com/)
 
-## Components
+## Basic Components
 ### Text Fields 
 ```clojure
 (require '[easyreagent.components :as er])
@@ -90,6 +90,16 @@ If you want something that's not listed here, lmk (open a github issue)
 I want to make this a good library, and I _will_ build it :D
 
 (within reason)
+
+## Advanced Components
+Advanced components are components that span both the client and the server.
+
+An example is a comments section that contains the comments UI (i.e. a textbox, and a list of comments), but then _ALSO_ writes the comments to a database, and has a real backend.
+
+### Login Flow
+< doesn't exist yet>
+
+
 
 # Installation
 To get this library, add
