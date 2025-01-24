@@ -10,5 +10,8 @@
          com.twilio.sdk/twilio {:mvn/version "10.1.1"}
          clj-python/libpython-clj {:mvn/version "2.025"}
          com.googlecode.libphonenumber/libphonenumber {:mvn/version "8.13.45"}
+         com.novemberain/monger {:mvn/version "3.5.0"}
+         me.raynes/conch {:mvn/version "0.8.0"}
+         compojure/compojure {:mvn/version "1.4.0"}
   }
 }

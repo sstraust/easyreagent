@@ -12,6 +12,11 @@ Stuff built with easyreagent:
 * [sprinklz.io](https://sprinklz.io)
 * [wordfinder9000](https://wordfinder9000.com/)
 
+
+NOTE: Apps using this library must build with shadow-cljs
+_and_ that your app uses the keywordize keys middleware
+_and_ app needs to include the libraries for websockets
+(for the server-side websocket versions of stuff to work)
 ## Basic Components
 ### Text Fields 
 ```clojure

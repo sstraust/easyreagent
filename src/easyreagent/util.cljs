@@ -25,3 +25,8 @@
 (defn load-page [location]
   (set! (.-href (.-location js/window)) location))
   
+(defn write-json [clj-map]
+  (.stringify js/JSON (clj->js clj-map)))
+
+(defn read-json-keywordize [json-str]
+  (js->clj (.parse js/JSON json-str) :keywordize-keys true))
