@@ -5,19 +5,19 @@
             [monger.collection :as mc]
             [ring.websocket :as ws]
             [compojure.core :refer [context defroutes GET POST]]
+            [easyreagentserver.fullstack.db :refer [db conn]]
             [clojure.data.json :as json]))
 
-(def conn (mg/connect))
-(def db (mg/get-db conn "easyreagent-test"))
 
-(def messages-table "easyreagent-messages")
+(def messages-table (atom "easyreagent-messages"))
 
 (defn get-conversation-messages
   [{{:keys [chat-id]} :params}]
+  (def mm chat-id)
   (er-server/json-response
    (dissoc
     (mc/find-one-as-map
-     db messages-table
+     @db @messages-table
      {:chat-id chat-id})
     :_id)))
 
@@ -48,7 +48,7 @@
     (let [message-data {:title message-contents}]
     (if-let [update-result
              (mc/update
-              db messages-table
+              @db @messages-table
               {:chat-id chat-id}
               {"$push" {:messages message-data}}
               {:multi false
@@ -109,7 +109,7 @@
              
 (comment
   (mc/find-one-as-map
-   db messages-table {})
+   @db @messages-table {})
   ;; now I need to update active chats
   ;; and then verify
   )

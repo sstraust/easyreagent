@@ -13,5 +13,7 @@
          com.novemberain/monger {:mvn/version "3.5.0"}
          me.raynes/conch {:mvn/version "0.8.0"}
          compojure/compojure {:mvn/version "1.4.0"}
+         net.clojars.wkok/openai-clojure {:mvn/version "0.14.0"}
+         org.springframework.security/spring-security-core {:mvn/version "5.7.5"}
   }
 }

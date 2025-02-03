@@ -101,6 +101,22 @@ Advanced components are components that span both the client and the server.
 
 An example is a comments section that contains the comments UI (i.e. a textbox, and a list of comments), but then _ALSO_ writes the comments to a database, and has a real backend.
 
+### Chat Box
+#### How to Use
+```clojure
+;; on the client-side
+[easyreagent.fullstack.chat/chat-window "125"]
+
+;; on the server side add this to your routes
+(require '[easyreagentserver.fullstack.chat :as er-chat])
+(defroutes routes
+  er-chat/chat-routes)
+  
+;; by default EasyReagent uses Mongodb with db name "easyreagent-test" and table name "easyreagent-messages"
+;; you can set these values to whatever you want by calling confgure db
+(er-chat/configure-db "mydbname" "messages-table")
+```
+
 ### Login Flow
 < doesn't exist yet>
 

@@ -30,3 +30,7 @@
 
 (defn read-json-keywordize [json-str]
   (js->clj (.parse js/JSON json-str) :keywordize-keys true))
+
+
+(defprotocol Renderable
+  (render [this]))

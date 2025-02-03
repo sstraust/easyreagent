@@ -80,7 +80,8 @@
            :on-key-down (fn [event]
                           (when (and (= 13 (.-keyCode event))
                                      (not (nil? (:on-enter attr-map))))
-                            ((:on-enter attr-map))))
+                            ((:on-enter attr-map))
+                            (.preventDefault event)))
            :value @curr-value-atom
            :class "input input-xs input-bordered w-full max-w-xs"}])
 
@@ -92,7 +93,9 @@
               :on-key-down (fn [event]
                              (when (and (= 13 (.-keyCode event))
                                         (not (nil? (:on-enter attr-map))))
-                               ((:on-enter attr-map))))
+                               ((:on-enter attr-map))
+                               (.preventDefault event)
+                               ))
               :value @curr-value-atom
               :class "input input-xs input-bordered w-full max-w-xs"}])
 

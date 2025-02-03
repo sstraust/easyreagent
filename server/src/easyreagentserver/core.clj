@@ -1,15 +1,20 @@
 (ns easyreagentserver.core
-  (:require [me.raynes.conch.low-level :as sh]
-            [ring.adapter.jetty :as ring]
-            [compojure.route :as route]
-            [compojure.core]
-            [clojure.data.json :as json]
-            [ring.middleware.json :refer [wrap-json-body wrap-json-params]]
-            [ring.middleware.gzip :refer [wrap-gzip]]
-            [ring.middleware.cookies :refer [wrap-cookies]]
-            [ring.middleware.keyword-params :refer [wrap-keyword-params]]
-            [ring.middleware.params :only [wrap-params] :refer [wrap-params]]
-            [environ.core :refer [env]]))
+  (:require
+   [clojure.data.json :as json]
+   [compojure.core]
+   [compojure.route :as route]
+   [easyreagentserver.fullstack.db :as er-db]
+   [easyreagentserver.fullstack.login :as er-login]
+   [easyreagentserver.internal :as internal]
+   [environ.core :refer [env]]
+   [me.raynes.conch.low-level :as sh]
+   [ring.adapter.jetty :as ring]
+   [ring.middleware.cookies :refer [wrap-cookies]]
+   [ring.middleware.gzip :refer [wrap-gzip]]
+   [ring.middleware.json :refer [wrap-json-params]]
+   [ring.middleware.keyword-params :refer [wrap-keyword-params]]
+   [ring.middleware.params :only [wrap-params] :refer [wrap-params]]
+   [ring.middleware.session :refer [wrap-session]]))
 
 (def MODE (atom
            (if (= (:clojure-project-mode env) "dev")
@@ -47,30 +52,23 @@
     (reset! web-server (ring/run-jetty
                         (wrap-gzip
                          (wrap-cookies
+                          (wrap-session
+                           (er-login/wrap-session-user
                           (wrap-json-params
                           (wrap-params
                            (wrap-keyword-params
-                             (extra-wrappers all-routes))))))
+                            (extra-wrappers all-routes)))))
+                          {:store (er-db/get-session-store)}
+                          )))
                         options))
     (println "Server is running on port " (:port options))))
                       
-  
-(defn success-response []
-  {:status 200
-   :headers {"Content-type" "application/json"}
-   :body (json/write-str {:result "success"})})
+(def success-response
+  internal/success-response)
 
-(defn failure-response [message]
-  {:status 200
-   :headers {"Content-type" "application/json"}
-   :body (json/write-str {:result "failure"
-                          :reason message})})
+(def failure-response internal/failure-response)
 
-(defn json-response [clojure-map]
-  {:status 200
-   :headers {"Content-type" "application/json"}
-   :body (json/write-str
-          (assoc clojure-map :easyreagent-result-type "json"))})
+(def json-response internal/json-response)
 
 (defn param-as-list [param-val]
   (if (vector? param-val)

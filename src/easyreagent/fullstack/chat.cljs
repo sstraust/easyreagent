@@ -57,8 +57,4 @@
 (defn chat-window [chat-id]
   [:v-box
    [prev-messages chat-id]
-   [new-message-input chat-id]
-   ])
-
-
-
+   [new-message-input chat-id]])
