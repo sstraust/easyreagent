@@ -2,15 +2,11 @@
 
 EasyReagent is a library of [Reagent](https://reagent-project.github.io) components that's designed to be, well, easy.
 
-Our goal is  _simple_, batteries-included components that look good by default.
-
 We use the same (hiccup-like) syntax as Reagent, so if you know how to use Reagent, you'll know how to use this library.
 
 [How to Install](#Installation)
 
-Stuff built with easyreagent:
-* [sprinklz.io](https://sprinklz.io)
-* [wordfinder9000](https://wordfinder9000.com/)
+Stuff built with easyreagent: [sprinklz.io](https://sprinklz.io), [wordfinder9000](https://wordfinder9000.com/)
 
 ## Basic Components
 ### Text Fields 
