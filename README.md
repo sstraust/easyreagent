@@ -2,7 +2,7 @@
 
 EasyReagent is a library of [Reagent](https://reagent-project.github.io) components that's designed to be, well, easy.
 
-[How to Install](#Installation) 
+[How to Install](#Installation) | [Why EasyReagent](##Selling Points) | [Demos](##Demos)
 
 
 ## Selling Points
