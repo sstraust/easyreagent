@@ -6,7 +6,9 @@ We use the same (hiccup-like) syntax as Reagent, so if you know how to use Reage
 
 [How to Install](#Installation)
 
-Stuff built with easyreagent: [sprinklz.io](https://sprinklz.io), [wordfinder9000](https://wordfinder9000.com/)
+Stuff built with easyreagent:
+* [sprinklz.io](https://sprinklz.io)
+* [wordfinder9000](https://wordfinder9000.com/)
 
 ## Basic Components
 ### Text Fields 
