@@ -2,13 +2,15 @@
 
 EasyReagent is a library of [Reagent](https://reagent-project.github.io) components that's designed to be, well, easy.
 
-We use the same (hiccup-like) syntax as Reagent, so if you know how to use Reagent, you'll know how to use this library.
+[How to Install](#Installation) | Stuff built with easyreagent: [sprinklz.io](https://sprinklz.io), [wordfinder9000](https://wordfinder9000.com/)
 
-[How to Install](#Installation)
 
-Stuff built with easyreagent:
-* [sprinklz.io](https://sprinklz.io)
-* [wordfinder9000](https://wordfinder9000.com/)
+## Selling Points
+
+- **We use the same (hiccup-like) syntax as Reagent**. If you know how to use Reagent, you'll know how to use this library.
+- **We support client+server components**. This means you can use our chatbox component, but _also_ get a full messaging app implementation.
+- **It's not a big commitment.** You can use bits and pieces of this library without buying into our whole ecosystem. If you want just 1 component, you can use it and it works. If you want just the client-side of a client-server component, you can do that as well.
+
 
 ## Basic Components
 ### Text Fields 
