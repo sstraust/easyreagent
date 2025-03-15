@@ -2,7 +2,8 @@
   (:require
    [easyreagent.components :as er]
    [reagent.core :as r]
-   [easyreagent.util :as er-util]))
+   [easyreagent.util :as er-util])
+  (:require-macros [easyreagent.create-component-macros :refer [defc]]))
 
 
 ;; NOW I NEED TO MAKE
@@ -21,7 +22,7 @@
    :success signup-success-action
    :failure #(js/alert (str "Signup failed due to: " %))))
 
-(defn signup-form [signup-success-action]
+(defc signup-form [signup-success-action]
   (let [username (r/atom "")
         password (r/atom "")]
     (fn []
@@ -31,19 +32,23 @@
                                event @username @password
                                signup-success-action))}
       [:h1.text-3xl "Sign Up"]
+      
       [:v-box.mr-8.ml-4
        [er/text-field
         {:type "text"
-         :class "input input-bordered my-2 input-md max-w-none"
+         :class "input input-bordered my-2 input-md"
+         :style {:max-width "none"}
          :placeholder "email"}
         username]
        [er/text-field
         {:type "password"
          :placeholder "password"
-         :class "input input-bordered my-1 input-md max-w-none"}
+         :style {:max-width "none"}
+         :class "input input-bordered my-1 input-md"}
         password]]
       [:v-box.card-actions.items-end.my-2
-       [:input.btn.btn-primary.btn-md {:type "submit"}]]]])))
+       [:input.btn.btn-primary.btn-md {:type "submit"}]]
+      (::subheading attr-map)]])))
 
 
 (defn handle-login-submit [event username password
@@ -57,7 +62,7 @@
    :failure #(js/alert (str "Login Failed!: " %))
    ))
 
-(defn login-form [login-success-action]
+(defc login-form [login-success-action]
   (let [username (r/atom "")
         password (r/atom "")]
     (fn []
@@ -70,14 +75,43 @@
       [:v-box.mr-8.ml-4
        [er/text-field
         {:type "text"
-         :class "input input-bordered my-2 input-md max-w-none"
+         :class "input input-bordered my-2 input-md"
+         :style {:max-width "none"}
          :placeholder "email"} username]
        [er/text-field 
         {:type "password"
-         :class "input input-bordered my-1 input-md max-w-none"
+         :class "input input-bordered my-1 input-md"
+         :style {:max-width "none"}
          :placeholder "password"} password]]
       [:v-box.card-actions.items-end.my-2
-       [:input.btn.btn-primary.btn-md {:type "submit"}]]]])))
+       [:input.btn.btn-primary.btn-md {:type "submit"}]]
+      (::subheading attr-map)]
+     ])))
+
+(defn login-or-signup [currently-shown success-action]
+  (case @currently-shown
+        ::login [login-form {::subheading
+                             [:p.mx-2.text-xs.text-center.mt-4
+                              ;; {:style {:font-size "0.8rem"}}
+                              "Don't have an account? "
+                             [:a.link.text-primary {:on-click #(reset! currently-shown ::signup)}
+                              "Sign Up"]]}
+                            success-action]
+        ::signup [signup-form
+                 {::subheading
+                  [:p.mx-4.text-xs.mt-4.text-center
+                   ;; {:style {:font-size "0.8rem"}}
+                   "Already have an account? "
+                   [:a.link.text-primary {:on-click #(reset! currently-shown ::login)}
+                              "Sign In"]]}
+                  success-action]
+        ))
+
+(defn log-out-action []
+  (er-util/post-request "/logOut"
+      {}
+    :success (fn [] (.reload js/location))
+    :failure (fn [] (js/alert "failed to sign out"))))
 
 
 
@@ -86,14 +120,45 @@
   (er-util/post-request
    "/easyreagent/fullstack/login/currentUser"
    {}
-   :json-response (fn [resp]
-                    (reset! curr-logged-in-name
-                            (first (vals resp))))
+    :json-response (fn [resp]
+                     (when (first (vals resp))
+                       (reset! curr-logged-in-name
+                               (first (vals resp)))))
    :failure identity))
 (def get-login-user (memoize get-login-user-helper))
 
 (defn display-logged-in-user []
+  (let [popup-style {:style {:width "35rem"
+                                 :padding-left "4rem"
+                                 :padding-right "3rem"
+                                 :padding-bottom 10}}]
   (fn []
     (get-login-user)
-    [:div @curr-logged-in-name]))
-
+    [:div.dropdown
+     [:div.btn.text-secondary.btn-ghost.btn-md.max-w-48 {:tabindex "0"
+                                                         :role "button"}
+      @curr-logged-in-name]
+     [:ul {:tabindex "0"
+           :class "menu dropdown-content bg-base-100 rounded-box z-[1] w-52 p-2 shadow"}
+      (if (= @curr-logged-in-name "Logged Out")
+        [:<>
+         [:li
+          {:on-click (fn []
+                       (er/create-popup
+                        popup-style
+                        (r/atom true)
+                        [login-form
+                         (fn [] (.reload js/location))]))}
+                                        
+          [:a "Log In"]]
+         [:li
+          {:on-click (fn []
+                       (er/create-popup
+                        popup-style
+                        (r/atom true)
+                        [signup-form
+                         (fn [] (.reload js/location))]))}
+          [:a "Sign Up"]]]
+        [:li [:a "Log Out"]])]]
+     ;; @curr-logged-in-name
+    )))

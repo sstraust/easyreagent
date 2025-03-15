@@ -12,11 +12,6 @@ Stuff built with easyreagent:
 * [sprinklz.io](https://sprinklz.io)
 * [wordfinder9000](https://wordfinder9000.com/)
 
-
-NOTE: Apps using this library must build with shadow-cljs
-_and_ that your app uses the keywordize keys middleware
-_and_ app needs to include the libraries for websockets
-(for the server-side websocket versions of stuff to work)
 ## Basic Components
 ### Text Fields 
 ```clojure
@@ -130,6 +125,11 @@ io.github.sstraust/easyreagent {:git/url "https://github.com/sstraust/easyreagen
 ```
 to your deps.edn file.
 
+
+NOTE: Apps using this library must build with shadow-cljs
+_and_ that your app uses the keywordize keys middleware
+_and_ app needs to include the libraries for websockets
+(for the server-side websocket versions of stuff to work)
 
 ### Installing CSS Files
 To get our stylining, download the file easyreagent.css, and import it from your main CSS file.

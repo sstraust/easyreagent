@@ -83,7 +83,10 @@
               [:session :id-str]
               (str (:_id user)))
     (er-internal/failure-response "Incorrect username or password")))
-  
+
+(defn logout [params]
+  (assoc params :session nil))
+      
 
 (defroutes login-routes
   (context
@@ -91,7 +94,8 @@
     (POST "/submitSignup" params (submit-signup-action params))
     (POST "/submitLogin" params
       (submit-login-action params))
-    (POST "/currentUser" params (get-current-user params))))
+    (POST "/currentUser" params (get-current-user params))
+    (POST "/logout" params (logout params))))
 
 ;; (comment
 ;;   (str (:_id (first (mc/find-maps @db @users-table nil))))

@@ -94,8 +94,9 @@
                    (alter active-sockets dissoc socket)
                    (alter active-chats update chat-id
                          (partial remove #(= % socket))))))
-                }})
-    
+    }})
+
+
     
 (defroutes chat-routes
   (context
@@ -104,7 +105,7 @@
     (POST "/getConversationMessages" params
       (get-conversation-messages params))
     (POST "/sendNewMessage" params
-      (send-new-message params))))
+          (send-new-message params))))
              
              
 (comment

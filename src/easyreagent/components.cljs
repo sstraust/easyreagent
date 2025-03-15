@@ -202,7 +202,7 @@
 
 (def modal-info-view-width 500)
 (defc with-modal-info [description content]
-  (let [is-shown (or (:is-shown attr-map (r/atom false)))
+  (let [is-shown (or (:is-shown attr-map) (r/atom false))
         curr-id (rand-id)
         curr-pos-x (r/atom nil)
         curr-pos-y (r/atom nil)
