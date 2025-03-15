@@ -20,3 +20,4 @@ www
 .shadow-cljs
 node_modules/
 out/
+.cpcache
