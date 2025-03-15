@@ -1,3 +1,4 @@
+<img src="logo.png" width="264px" alt="EasyReagent">
 # EasyReagent
 
 EasyReagent is a library of [Reagent](https://reagent-project.github.io) components that's designed to be, well, easy.
