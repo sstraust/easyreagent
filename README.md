@@ -1,10 +1,10 @@
-<img src="logo-with-text.png" width="264px" alt="EasyReagent">
+# EasyReagent
 
 EasyReagent is a library of [Reagent](https://reagent-project.github.io) components that's designed to be, well, easy.
 
 ## Why EasyReagent?
-- **We use the same (hiccup-like) syntax as Reagent**. It's easy to use, and you know how to use it.
-- **We support client+server components**. This means if you use our chatbox UI component, you _also_ get a full messaging app that actually works.
+- **We use the same (hiccup-like) syntax as Reagent**. It's easy to use, and you already know how to use it.
+- **We support client+server components**. If you use the chat UI component, you can (optionally) import our server-side routes, and get a messaging application that actually works.
 - **It's not a big commitment.** You can use bits and pieces of this library without buying into our whole ecosystem. If you want just 1 component, you can use it and it works.
 
 [Jump to Installation](#Installation)
