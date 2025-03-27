@@ -1,6 +1,6 @@
 # EasyReagent
 
-EasyReagent is a library of [Reagent](https://reagent-project.github.io) components that's designed to be easy.
+EasyReagent is a library of [Reagent](https://reagent-project.github.io) components that's designed to be, well, easy.
 
 ### Why EasyReagent?
 - **We use the same (hiccup-like) syntax as Reagent**. It's easy to use, and you already know how to use it.
