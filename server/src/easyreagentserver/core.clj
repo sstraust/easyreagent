@@ -58,7 +58,8 @@
                           (wrap-params
                            (wrap-keyword-params
                             (extra-wrappers all-routes)))))
-                          {:store (er-db/get-session-store)}
+                           {:store (er-db/get-session-store)
+                            :cookie-attrs {:max-age 315360000}}
                           )))
                         options))
     (println "Server is running on port " (:port options))))

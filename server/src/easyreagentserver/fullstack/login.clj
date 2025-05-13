@@ -43,11 +43,12 @@
   (let [user (mc/find-one-as-map
               @db @users-table
               {(identifier-key) identifier})]
-    (when  (.matches
-            password-encoder
-            password
-            (:password-hash
-             user))
+    (when  (and password
+                (:password-hash user)
+                (.matches password-encoder
+                          password
+                          (:password-hash
+                           user)))
       user)))
 
 
