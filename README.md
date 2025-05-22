@@ -124,9 +124,6 @@ to your deps.edn file.
 
 
 NOTE: Apps using this library must build with shadow-cljs
-_and_ that your app uses the keywordize keys middleware
-_and_ app needs to include the libraries for websockets
-(for the server-side websocket versions of stuff to work)
 
 ### Installing CSS Files
 
@@ -147,6 +144,13 @@ module.exports = {
 ```
 
 to your tailwind config.
+
+### Server-Side Components
+In order for server-side components to work correctly, we recommend using easyreagentserver.core/run-web-server to start your server.
+
+If you run it with your own custom configuration, you need to:
+* Make sure your app uses the keywordize keys middleware 
+* Includes the libraries for websockets
 
 
 ## Selling Points
