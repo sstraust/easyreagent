@@ -4,21 +4,41 @@
             [easyreagentserver.core :as er-server]
             [monger.collection :as mc]
             [ring.websocket :as ws]
+            [clojure.string]
             [compojure.core :refer [context defroutes GET POST]]
             [easyreagentserver.fullstack.db :refer [db conn]]
             [clojure.data.json :as json]))
 
 
+
 (def messages-table (atom "easyreagent-messages"))
 
+(defn get-chat-type [chat-id]
+  (keyword (second (re-find #"(.*?)-" chat-id))))
+ 
+
+(derive ::write ::any)
+(derive ::read ::any)
+(derive ::unspecified ::any)
+(defmulti has-permission?
+  (fn [chat-id user & {[request-type] :keys}]
+    [(get-chat-type chat-id) (or request-type ::unspecified)]))
+
+
+(defmethod has-permission? :default [chat-id user & opts]
+  true)
+
+
 (defn get-conversation-messages
-  [{{:keys [chat-id]} :params}]
-  (er-server/json-response
-   (dissoc
-    (mc/find-one-as-map
-     @db @messages-table
-     {:chat-id chat-id})
-    :_id)))
+  [{{:keys [chat-id]} :params er-session-user :er-session-user}]
+  (if (not (has-permission? chat-id er-session-user {:request-type ::read}))
+    (er-server/failure-response "user does not have permissions to view this chat")
+    (er-server/json-response
+     (dissoc
+      (mc/find-one-as-map
+       @db @messages-table
+       {:chat-id chat-id})
+      :_id))))
 
 
 
@@ -42,7 +62,8 @@
       (catch Exception e (println e)))))
 
 (defn send-new-message
-  [{{:keys [chat-id message-contents]} :params :as params}]
+  [{{:keys [chat-id message-contents]} :params :as params er-session-user :er-session-user}]
+  (if-not (has-permission? chat-id er-session-user {:request-tyupe ::read})
   (try
     (let [message-data {:title message-contents}]
     (if-let [update-result
@@ -59,13 +80,12 @@
         )
       (er-server/failure-response "failed to update messages table")))
     (catch Exception e
-      (er-server/failure-response "failed to update messages table"))
-    ))
+      (er-server/failure-response "failed to update messages table")))))
 
 ;; chat id -> list of sockets
 ;; now you need to close the socket
 ;; and also understand/not send when sockets are closed
-(defn register-chat-responder [socket message]
+(defn register-chat-responder [socket message params]
   (cond
     (= message "exit")
     (do (ws/close socket)
@@ -75,20 +95,21 @@
     :else
     (let [chat-id (:chat-id (clojure.walk/keywordize-keys
                              (json/read-str message)))]
+      (if-not (has-permission? chat-id (:er-session-user params) {:request-type ::read})
+        nil
       (dosync
        (alter active-sockets assoc socket chat-id)
        (alter active-chats
             update chat-id
-            (fnil conj #{}) socket)))))
+            (fnil conj #{}) socket))))))
           
 (defn setup-socket [params]
   {::ws/listener
    {:on-open
     (fn [socket] nil)
-    :on-message register-chat-responder
+    :on-message (fn [socket message] (register-chat-responder socket message params))
     :on-close (fn [socket status-code reason]
                 (let [chat-id (get @active-sockets socket)]
-                  (println "onclose called for : " (str chat-id))
                   (dosync 
                    (alter active-sockets dissoc socket)
                    (alter active-chats update chat-id
