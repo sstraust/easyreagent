@@ -95,7 +95,6 @@
     :else
     (let [chat-id (:chat-id (clojure.walk/keywordize-keys
                              (json/read-str message)))]
-      (println (has-permission? chat-id (:er-session-user params) {:request-type ::read})) 
       (if-not (has-permission? chat-id (:er-session-user params) {:request-type ::read})
         nil
       (dosync
@@ -111,7 +110,6 @@
     :on-message (fn [socket message] (register-chat-responder socket message params))
     :on-close (fn [socket status-code reason]
                 (let [chat-id (get @active-sockets socket)]
-                  (println "onclose called for : " (str chat-id))
                   (dosync 
                    (alter active-sockets dissoc socket)
                    (alter active-chats update chat-id
