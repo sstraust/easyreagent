@@ -19,3 +19,5 @@ www
 .lsp/.cache*
 .shadow-cljs
 node_modules/
+out/
+.cpcache

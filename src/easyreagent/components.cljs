@@ -261,7 +261,7 @@
             [:div description]]]]))])))
 
 (defn heroed-content [& contents]
-  [:div.hero
+  [:div.hero {:style {:min-height "48vh"}} 
    [:div.hero-content
     (into [] (concat [:<>] contents))]])
 
@@ -275,3 +275,4 @@
     :countries ["US"]
     :onChange (fn [val] (reset! phone-number-atom val))}])
 ;; test change3
+"hero hero-content"
