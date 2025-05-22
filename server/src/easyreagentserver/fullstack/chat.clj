@@ -13,7 +13,6 @@
 
 (defn get-conversation-messages
   [{{:keys [chat-id]} :params}]
-  (def mm chat-id)
   (er-server/json-response
    (dissoc
     (mc/find-one-as-map

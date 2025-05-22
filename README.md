@@ -130,11 +130,25 @@ _and_ app needs to include the libraries for websockets
 (for the server-side websocket versions of stuff to work)
 
 ### Installing CSS Files
-To get our stylining, download the file easyreagent.css, and import it from your main CSS file.
 
-EasyReagent uses [DaisyUI](https://daisyui.com/) (a Tailwind library) for CSS. You want easyreagent.css to be in the list of 'content' files in your tailwind.config.js.
+EasyReagent uses [DaisyUI](https://daisyui.com/) (a Tailwind library) for CSS. In order for the styling to work correctly, you need to:
+- Use Tailwind
+- Make sure tailwind knows about the easyreagent source paths. The easiest way to do this is to include your generated output files in the content section of your tailwind.config.js
 
-You're not required to use the same styling as we do, but if you don't use daisyUI, some styles might not look as nice. 
+i.e. if you shadow-cljs build outputs to a directory named  ```"./out"```, then you'll want to add 
+
+```
+/** @type {import('tailwindcss').Config} */
+const colors = require('tailwindcss/colors');
+module.exports = {
+    content: ["./src/**/*.{html,js,cljs}",
+              "./out/**/*.{html,js,cljs}",
+			  ...
+}
+```
+
+to your tailwind config.
+
 
 
 ## Design philosophy

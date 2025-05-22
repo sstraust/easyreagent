@@ -167,7 +167,7 @@
       [:div {:class "er-popup-window-container"}
        [:div {:class "er-popup-window-background"
               :on-click (fn [] (reset! is-shown false))}]
-      [:v-box (easyreagent.create-component/merge-attrs options {:class "er-popup-window"})
+       [:v-box (easyreagent.create-component/merge-attrs options {:class "er-popup-window min-w-64 min-h-20"})
        [:div {:style {:height "1rem"}} [:div {:class "er-x-out"
               :on-click (fn [] (reset! is-shown false))} (gstr/unescapeEntities "&times;")]]
        (into [] (concat [:<>]  body))]])))
@@ -181,7 +181,7 @@
 (defn submit-button
   ([content] [submit-button nil content])
   ([options content]
-   [:h-box.w-full.justify-end.er-submit-button-container
+   [:h-box.w-full.justify-end.er-submit-button-container.mt-4
     [:button options content]]))
   
 
@@ -191,7 +191,7 @@
   ([options content]
    (let [is-shown (r/atom true)]
      (create-popup options is-shown
-                   [:v-box.er-alert-popup-container
+                   [:v-box.er-alert-popup-container.min-w-64.pl-2
                     content
                     [submit-button {:on-click (fn [] (reset! is-shown false))} "Got It"]]))))
 
@@ -255,7 +255,9 @@
                           {:position "absolute"
                                  :right 0
                                  :top 0})}
-           [:div.er-modal-info-text
+           [:div.er-modal-info-text.text-base-content.bg-base-100.border-base-content.border-solid.border-2
+            {:style {:width "fit-content"
+                     :height "fit-content"}}
             [:div description]]]]))])))
 
 (defn heroed-content [& contents]
