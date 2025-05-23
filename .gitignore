@@ -21,3 +21,4 @@ www
 node_modules/
 out/
 .cpcache
+!server/resources/easyreagent/out/

@@ -1,5 +1,5 @@
 {
- :paths ["src" "compiled_js" "resources"]
+ :paths ["src" "resources"]
  :deps {
          org.clojure/clojure {:mvn/version "1.11.1"}
          environ/environ {:mvn/version "1.2.0"}
