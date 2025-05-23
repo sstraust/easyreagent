@@ -1,5 +1,6 @@
 {
-  :deps {
+ :paths ["src" "compiled_js" "resources"]
+ :deps {
          org.clojure/clojure {:mvn/version "1.11.1"}
          environ/environ {:mvn/version "1.2.0"}
          ring/ring {:mvn/version "1.11.0-RC1"}
@@ -17,3 +18,4 @@
          org.springframework.security/spring-security-core {:mvn/version "5.7.5"}
   }
 }
+
