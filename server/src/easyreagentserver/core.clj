@@ -1,8 +1,8 @@
 (ns easyreagentserver.core
   (:require
-   [clojure.data.json :as json]
    [compojure.core]
    [compojure.route :as route]
+   [easyreagentserver.fullstack.config]
    [easyreagentserver.fullstack.db :as er-db]
    [easyreagentserver.fullstack.login :as er-login]
    [easyreagentserver.internal :as internal]
@@ -62,6 +62,7 @@
                             :cookie-attrs {:max-age 315360000}}
                           )))
                         options))
+    (easyreagentserver.fullstack.config/configure-fullstack-components (:fullstack options))
     (println "Server is running on port " (:port options))))
                       
 (def success-response
