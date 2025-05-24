@@ -32,8 +32,7 @@
     (str "<script>mode=" (json/write-str @er-server/MODE) "</script>")
     [:div {:id "all-content"}]
         
-    (str "<script>easyreagent.fullstack.dashboard.load_dashboard()</script>")
-    ]))
+    (str "<script>easyreagent.fullstack.dashboard.load_dashboard()</script>")]))
 
 
 (defroutes dashboard-routes
