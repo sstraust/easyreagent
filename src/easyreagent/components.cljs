@@ -261,10 +261,13 @@
             [:div description]]]]))])))
 
 (defn heroed-content [& contents]
-  [:div.hero {:style {:min-height "48vh"}} 
-   [:div.hero-content
-    (into [] (concat [:<>] contents))]])
-
+  (let [attr-map (when (map? (first contents)) (first contents))
+        contents (if (map? (first contents)) (rest contents) contents)]
+    (with-attr-map attr-map
+    [:div.hero {:style {:min-height "48vh"}}
+     [:div.hero-content
+      (into [] (concat [:<>] contents))]])))
+  
 (defc phone-input-us [phone-number-atom]
   [(r/adapt-react-class PhoneInput)
    {:placeholder "e.g. 321 456 7890"

@@ -2,18 +2,18 @@
  :deps true
  :builds {:app
           {:devtools {
-                      :autobuild false
+                      :autobuild true
                       :watch-dir "resources"
                       :ignore-warnings true
                       }
            :output-dir "server/resources/easyreagent/out"
            :target :browser
-           :modules {:main {:entries [easyreagent.fullstack.dashboard]}}
+           :modules {:main {:entries [easyreagent.fullstack.compiled]}}
            }
           :prod {
                  :output-dir "server/resources/easyreagent/prod_js"
                  :target :browser
-                 :modules {:main {:entries [easyreagent.fullstack.dashboard]}}
+                 :modules {:main {:entries [easyreagent.fullstack.compiled]}}
                  }
           }
  }
