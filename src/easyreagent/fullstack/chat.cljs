@@ -34,8 +34,8 @@
       [:form.er-fullstack-chat-new-message-form
        {:on-submit (fn [e]
                      (.preventDefault e)
-                      (chat-state/send-message chat-id
-                                               @curr-text-input)
+                     (chat-state/send-message chat-id
+                                              @curr-text-input)
                      (reset! curr-text-input ""))}
        [:h-box.items-end
         [er/text-field {:class "er-fullstack-main-input-box"

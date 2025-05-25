@@ -45,10 +45,10 @@
 
 
 
-(defn send-message [chat-id message]
+(defn send-message [chat-id message & {:keys [callback]}]
   (er-util/post-request
-   "easyreagent/fullstack/chat/sendNewMessage"
+   "/easyreagent/fullstack/chat/sendNewMessage"
    {:chat-id chat-id
     :message-contents message}
-   :success identity
-   :failure #(js/alert "message failed to send")))
+   :success (or callback identity)
+   :failure #(js/alert (str "message failed to send" %))))

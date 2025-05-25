@@ -1,7 +1,8 @@
 (ns easyreagent.fullstack.dashboard 
   (:require
-   [reagent.core :as r]
+   [easyreagent.fullstack.chat :as chat]
    [easyreagent.util :as er-util]
+   [reagent.core :as r]
    [reagent.dom :as rdom]))
 
 (def dashboard-data (r/atom nil))
@@ -17,7 +18,10 @@
 (defn dashboard []
   [:v-box
    [:div "Dashboard!"]
-   [:div "Users count: " (:users-count @dashboard-data)]])
+   [:div "Users count: " (:users-count @dashboard-data)]
+   [:div "Feedback: "]
+   [chat/prev-messages "feedback-all"]
+   ])
 
 (defn ^:export load-dashboard []
   (load-dashboard-data)

@@ -4,13 +4,14 @@
 
 (def admin-user (atom nil))
 
-(defn check-against-admin-user [params]
-  (if (and @admin-user (:er-session-user params))
-    (= ((login/identifier-key) (:er-session-user params))
+(defn check-against-admin-user [user]
+  (if (and @admin-user user)
+    (= ((login/identifier-key) user)
        @admin-user)
     false))
+
 (def is-admin-user-fn?
   (atom check-against-admin-user))
 
-(defn is-admin-user? [params]
-  (@is-admin-user-fn? params))
+(defn is-admin-user? [user]
+  (@is-admin-user-fn? user))
