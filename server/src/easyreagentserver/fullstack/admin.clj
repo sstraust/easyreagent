@@ -3,6 +3,7 @@
    [easyreagentserver.fullstack.login :as login]))
 
 (def admin-user (atom nil))
+(def admin-email (atom nil))
 
 (defn check-against-admin-user [user]
   (if (and @admin-user user)
