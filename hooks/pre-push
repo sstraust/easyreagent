@@ -1,0 +1,15 @@
+#!/bin/bash
+
+ORIGINAL_DIR=$(pwd)
+
+# Define paths
+PROJECT_ROOT="$(git rev-parse --show-toplevel)"
+
+{
+    cd "$PROJECT_ROOT"
+    npx tailwindcss -i ./resources/easyreagent.css -o ./server/resources/easyreagent/style.css
+    shadow-cljs compile :app
+    shadow-cljs release :prod
+}
+
+exit 0
