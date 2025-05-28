@@ -1,5 +1,6 @@
 (ns easyreagentserver.core
   (:require
+   [clojure.java.shell :as shell]
    [compojure.core]
    [compojure.route :as route]
    [easyreagentserver.fullstack.config]
@@ -41,6 +42,8 @@
     (start-tailwind-server js-dir))
   (when (not (nil? @web-server))
     (.stop @web-server))
+  (when (not (= @MODE :dev))
+    (shell/sh "npx" "kill-port" (str (:port options))))
   (let [javascript-routes (route/files "/out" {:root (if (= @MODE :dev)
                                                        (str js-dir "/out")
                                                        (str js-dir "/prod_js"))})
