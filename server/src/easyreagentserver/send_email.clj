@@ -6,6 +6,8 @@
 (def sendgrid-api-key (atom nil))
 
 (defn set-sendgrid-key-from-env []
+  (when (empty? (System/getenv "SENDGRID_API_KEY"))
+    (throw (RuntimeException. "This is a runtime error")))
   (reset! sendgrid-api-key (System/getenv "SENDGRID_API_KEY")))
 
 (defn email-enabled? []
