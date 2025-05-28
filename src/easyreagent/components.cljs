@@ -83,7 +83,7 @@
                             ((:on-enter attr-map))
                             (.preventDefault event)))
            :value @curr-value-atom
-           :class "input input-xs input-bordered w-full max-w-xs"}])
+           :class "input input-bordered w-full"}])
 
 (defc text-area [curr-value-atom]
   [:textarea {:on-change (fn [val] (do
@@ -97,7 +97,7 @@
                                (.preventDefault event)
                                ))
               :value @curr-value-atom
-              :class "input input-xs input-bordered w-full max-w-xs"}])
+              :class "input input-xs input-bordered w-full"}])
 
 (defc checkbox [is-checked-atom]
   [:input {:type "checkbox"
