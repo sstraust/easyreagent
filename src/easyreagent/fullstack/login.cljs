@@ -47,7 +47,7 @@
          :class "input input-bordered my-1 input-md"}
         password]]
       [:v-box.card-actions.items-end.my-2
-       [:input.btn.btn-primary.btn-md {:type "submit"}]]
+       [:input.btn.btn-primary.btn-md.self-end {:type "submit"}]]
       (::subheading attr-map)]])))
 
 
@@ -84,7 +84,7 @@
          :style {:max-width "none"}
          :placeholder "password"} password]]
       [:v-box.card-actions.items-end.my-2
-       [:input.btn.btn-primary.btn-md {:type "submit"}]]
+       [:input.btn.btn-primary.btn-md.self-end {:type "submit"}]]
       (::subheading attr-map)]
      ])))
 
