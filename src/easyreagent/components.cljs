@@ -168,9 +168,13 @@
        [:div {:class "er-popup-window-background"
               :on-click (fn [] (reset! is-shown false))}]
        [:v-box (easyreagent.create-component/merge-attrs options {:class "er-popup-window min-w-64 min-h-20"})
-       [:div {:style {:height "1rem"}} [:div {:class "er-x-out"
-              :on-click (fn [] (reset! is-shown false))} (gstr/unescapeEntities "&times;")]]
-       (into [] (concat [:<>]  body))]])))
+        [:div {:style {:height "1rem"
+                       :position "relative"
+                       :left "0.6rem"
+                       :top "0.4rem"}}
+         [:div {:class "er-x-out"
+                :on-click (fn [] (reset! is-shown false))} (gstr/unescapeEntities "&times;")]]
+        (into [] (concat [:<>]  body))]])))
 
 
 (defn create-popup
