@@ -86,7 +86,10 @@
     (er-internal/failure-response "Incorrect username or password")))
 
 (defn logout [params]
-  (assoc params :session nil))
+  (assoc
+   (er-internal/success-response)
+   :session nil))
+
       
 
 (defroutes login-routes

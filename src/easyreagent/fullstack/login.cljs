@@ -129,6 +129,7 @@
 
 (defn display-logged-in-user []
   (let [popup-style {:style {:width "35rem"
+                             :margin-top "10vh"
                                  :padding-left "4rem"
                                  :padding-right "3rem"
                                  :padding-bottom 10}}]
@@ -159,6 +160,13 @@
                         [signup-form
                          (fn [] (.reload js/location))]))}
           [:a "Sign Up"]]]
-        [:li [:a "Log Out"]])]]
+        [:li
+         {:on-click (fn []
+                      (er-util/post-request
+                       "/easyreagent/fullstack/login/logout"
+                       {}
+                       :success (fn [] (.reload js/location))
+                       :failure #(js/alert (str "failed to log out!: " %))))}
+         [:a "Log Out"]])]]
      ;; @curr-logged-in-name
     )))
