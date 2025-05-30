@@ -3899,6 +3899,10 @@ details.collapse summary::-webkit-details-marker {
   align-self: flex-start;
 }
 
+.self-end {
+  align-self: flex-end;
+}
+
 .text-wrap {
   text-wrap: wrap;
 }

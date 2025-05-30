@@ -16,3 +16,12 @@
    :headers {"Content-type" "application/json"}
    :body (json/write-str
           (assoc clojure-map :easyreagent-result-type "json"))})
+
+(defn is-failure-response? [response]
+  (= (:result (json/read-str
+               (:body response)))
+     "failure"))
+
+(defn parse-json-response [response]
+  (json/read-str (:body response)))
+           
