@@ -505,14 +505,14 @@ return cljs.core.apply.cljs$core$IFn$_invoke$arity$2(f,maps__$1);
 var no$en$core$m = function (var_args){
 var maps__$1 = null;
 if (arguments.length > 0) {
-var G__23640__i = 0, G__23640__a = new Array(arguments.length -  0);
-while (G__23640__i < G__23640__a.length) {G__23640__a[G__23640__i] = arguments[G__23640__i + 0]; ++G__23640__i;}
-  maps__$1 = new cljs.core.IndexedSeq(G__23640__a,0,null);
+var G__23642__i = 0, G__23642__a = new Array(arguments.length -  0);
+while (G__23642__i < G__23642__a.length) {G__23642__a[G__23642__i] = arguments[G__23642__i + 0]; ++G__23642__i;}
+  maps__$1 = new cljs.core.IndexedSeq(G__23642__a,0,null);
 } 
 return no$en$core$m__delegate.call(this,maps__$1);};
 no$en$core$m.cljs$lang$maxFixedArity = 0;
-no$en$core$m.cljs$lang$applyTo = (function (arglist__23641){
-var maps__$1 = cljs.core.seq(arglist__23641);
+no$en$core$m.cljs$lang$applyTo = (function (arglist__23643){
+var maps__$1 = cljs.core.seq(arglist__23643);
 return no$en$core$m__delegate(maps__$1);
 });
 no$en$core$m.cljs$core$IFn$_invoke$arity$variadic = no$en$core$m__delegate;

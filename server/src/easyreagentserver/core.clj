@@ -73,6 +73,8 @@
 
 (def failure-response internal/failure-response)
 
+(def json-response internal/json-response)
+
 (def is-failure-response? internal/is-failure-response?)
 
 (def parse-json-response internal/parse-json-response)
