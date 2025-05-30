@@ -23,5 +23,5 @@
      "failure"))
 
 (defn parse-json-response [response]
-  (json/read-str (:body response)))
+  (json/read-str (:body response) :key-fn keyword))
            
