@@ -1,5 +1,6 @@
 (ns easyreagentserver.core
   (:require
+   [clojure.data.json :as json]
    [clojure.java.shell :as shell]
    [compojure.core]
    [compojure.route :as route]
@@ -8,6 +9,7 @@
    [easyreagentserver.fullstack.login :as er-login]
    [easyreagentserver.internal :as internal]
    [environ.core :refer [env]]
+   [hiccup.util :as hiccup.util]
    [me.raynes.conch.low-level :as sh]
    [ring.adapter.jetty :as ring]
    [ring.middleware.cookies :refer [wrap-cookies]]
@@ -85,3 +87,10 @@
     (list param-val)))
 (defn uuid []
   (apply str (into [] (repeatedly 5 #(rand-int 1000)))))
+
+
+
+(defn set-server-side-data [data-map]
+  [:meta#global-easyreagent-metadata
+   {:server-data (hiccup.util/escape-html (json/write-str data-map))}])
+  

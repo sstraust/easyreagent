@@ -1,7 +1,10 @@
 (ns easyreagent.util
   (:require-macros [easyreagent.util])
-  (:require [cljs.core.async :refer [<!]]
-            [cljs-http.client :as http]))
+  (:require
+   [clojure.browser.dom :as dom]
+   [cljs.reader :as reader]
+   [cljs.core.async :refer [<!]]
+   [cljs-http.client :as http]))
 
 (def curr-css (atom nil))
 
@@ -53,3 +56,17 @@
     ;; Append form and submit
     (.appendChild (.-body js/document) form)
     (.submit form)))
+
+(defn- decode-html-entities-manual [s]
+  (-> s
+      (clojure.string/replace "&quot;" "\"")
+      (clojure.string/replace "&apos;" "'")
+      (clojure.string/replace "&lt;" "<")
+      (clojure.string/replace "&gt;" ">")
+      (clojure.string/replace "&amp;" "&")))
+
+(defn get-server-side-data []
+  (when-let [meta-el (.querySelector js/document "meta[id='global-easyreagent-metadata']")]
+    (when-let [content (.getAttribute meta-el "server-data")]
+      (js->clj (js/JSON.parse (decode-html-entities-manual content)) :keywordize-keys true))))
+;; (get-serverside-data)
