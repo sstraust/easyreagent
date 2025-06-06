@@ -3,7 +3,7 @@
 
 (defmacro post-request [path params & {:keys [:success :failure :json-response]}]
   `(cljs.core.async/go
-     (let [result# (cljs.core.async/<! (cljs-http.client/post ~path {:form-params ~params}))]
+     (let [result# (cljs.core.async/<! (cljs-http.client/post ~path {:json-params ~params}))]
        (cond
          (= (:result (:body result#)) "success")
          ((or ~success identity))
