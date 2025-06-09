@@ -19,8 +19,15 @@
 
 (defn is-failure-response? [response]
   (= (:result (json/read-str
-               (:body response)))
+               (:body response)
+               :key-fn keyword))
      "failure"))
+
+(defn get-failure-message [response]
+  (:reason (json/read-str
+               (:body response)
+               :key-fn keyword)))
+  
 
 (defn parse-json-response [response]
   (json/read-str (:body response) :key-fn keyword))

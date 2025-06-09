@@ -79,6 +79,8 @@
 
 (def is-failure-response? internal/is-failure-response?)
 
+(def get-failure-message internal/get-failure-message)
+
 (def parse-json-response internal/parse-json-response)
 
 (defn param-as-list [param-val]
