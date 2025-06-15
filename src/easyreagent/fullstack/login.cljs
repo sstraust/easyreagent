@@ -136,10 +136,10 @@
   (fn []
     (get-login-user)
     [:div.dropdown
-     [:div.btn.text-secondary.btn-ghost.btn-md.max-w-48 {:tabindex "0"
+     [:div.btn.text-secondary.btn-ghost.btn-md.max-w-48 {:tabIndex "0"
                                                          :role "button"}
       @curr-logged-in-name]
-     [:ul {:tabindex "0"
+     [:ul {:tabIndex "0"
            :class "menu dropdown-content bg-base-100 rounded-box z-[1] w-52 p-2 shadow"}
       (if (= @curr-logged-in-name "Logged Out")
         [:<>
