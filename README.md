@@ -110,8 +110,28 @@ An example is a comments section that contains the comments UI (i.e. a textbox, 
 ```
 
 ### Login Flow
-< doesn't exist yet>
+```clojure
+;; on the client-side
+(require '[easyreagent.fullstack.login :as er-login])
+[er-login/login-or-signup (r/atom ::er-login/signup)]
 
+;; on the server side, add this to your routes
+(require '[easyreagentserver.fullstack.login :as er-login])
+(defroutes routes
+	er-login/login-routes)
+```
+
+If you started your web server with er-server/run-web-server, this will use middleware to add :er-session-user (representing the currently logged in user) to every web request. If you start your server by other means, you can add it with ```er-login/wrap-session-user```
+
+for example:
+```
+;; if you have this in your routes definition
+(POST "/listUsersSavedInfo" params (list-users-saved-info params))
+;; then you can do
+(defn list-users-saved-info [{er-session-user :er-session-user :as params}]
+;; do something with er-session-user, er-session-user is the database info for a user
+;;  e.g. {:_id 123 (the mongodb id)  :id_str "steve" (the username or e-mail of the user)}
+```
 
 
 # Installation
