@@ -124,7 +124,7 @@ An example is a comments section that contains the comments UI (i.e. a textbox, 
 If you started your web server with er-server/run-web-server, this will use middleware to add :er-session-user (representing the currently logged in user) to every web request. If you start your server by other means, you can add it with ```er-login/wrap-session-user```
 
 for example:
-```
+```clojure
 ;; if you have this in your routes definition
 (POST "/listUsersSavedInfo" params (list-users-saved-info params))
 ;; then you can do
@@ -132,6 +132,42 @@ for example:
 ;; do something with er-session-user, er-session-user is the database info for a user
 ;;  e.g. {:_id 123 (the mongodb id)  :e-mail "steve" (the username or e-mail of the user)}
 ```
+
+### Configuration
+Server-side components come with reasonable defaults, so that you can use most components without additional configuration. In order to configure server-side components, you pass a map of options you want to set. See the individual components for what options are available to set.
+
+#### Using run-web-server
+
+If you start your server with er-server/run-web-server, you can pass this map inside of the ```:fullstack```
+```clojure
+  (er-server/run-web-server
+   "newsv2js" routes
+   {...
+	;;; add this to set the admin user, for use in the admin dashboard
+    :fullstack {:admin-user "sam.t.straus@gmail.com"
+                :admin-email "sam.t.straus@gmail.com"}})
+```				
+
+#### Set it directly
+you can also do
+```clojure
+(config/configure-fullstack-components
+ {:admin-user "sam.t.straus@gmail.com"
+                :admin-email "sam.t.straus@gmail.com"})
+```
+
+#### Common options
+A few useful options are:
+* :db -- The monger database to use for storage. Applies across all components
+for example:
+```clojure
+:db (mg/get-db conn "easyreagent-test")
+```
+* :admin-user -- the user that is considered the admin user, for purpose of logging
+in to easyreagent dashboards. Should be a user created using easyreagent login
+* :admin-email -- the address to send admin informational e-mails to. requires sendgrid
+to be set up.
+   
 
 ## Customizing Styles
 EasyReagent uses [DaisyUI](https://daisyui.com/) for most of its styling. This means it's easy to change the high-level design and layout of our components using DaisyUI themes, and tailwind configuration.
