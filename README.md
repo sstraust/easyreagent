@@ -138,24 +138,6 @@ EasyReagent uses [DaisyUI](https://daisyui.com/) for most of its styling. This m
 
 Additionally, most easyreagent accept a map, similar to hiccup, where you can pass in your own :class, and :style fields. In some cases, to make it easy to re-style deeply nested components, easyreagent defines also css classes that you can modify in your own css. In general, _you should not override these classes, unless they are explicitly documented as customizable_, because they may change during library development.
 
-;; on the server side, add this to your routes
-(require '[easyreagentserver.fullstack.login :as er-login])
-(defroutes routes
-	er-login/login-routes)
-```
-
-If you started your web server with er-server/run-web-server, this will use middleware to add :er-session-user (representing the currently logged in user) to every web request. If you start your server by other means, you can add it with ```er-login/wrap-session-user```
-
-for example:
-```
-;; if you have this in your routes definition
-(POST "/listUsersSavedInfo" params (list-users-saved-info params))
-;; then you can do
-(defn list-users-saved-info [{er-session-user :er-session-user :as params}]
-;; do something with er-session-user, er-session-user is the database info for a user
-;;  e.g. {:_id 123 (the mongodb id)  :id_str "steve" (the username or e-mail of the user)}
-```
-
 There are a few components that still use inline css, but as a library we try to stick to the convention that everything is defined using tailwind classes or new css classes.
 
 # Installation
