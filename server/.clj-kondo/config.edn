@@ -1,0 +1,3 @@
+{:hooks
+ {:macroexpand
+  {easyreagentserver.fullstack.config/create-component-config config/create-component-config}}}

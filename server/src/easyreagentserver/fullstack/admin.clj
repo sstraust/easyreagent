@@ -1,9 +1,14 @@
 (ns easyreagentserver.fullstack.admin 
   (:require
+   [easyreagentserver.fullstack.config :as config]
    [easyreagentserver.fullstack.login :as login]))
 
-(def admin-user (atom nil))
-(def admin-email (atom nil))
+
+(config/create-component-config
+ :top-level
+ admin-user {:default-value nil}
+ admin-email {:default-value nil})
+
 
 (defn check-against-admin-user [user]
   (if (and @admin-user user)

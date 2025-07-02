@@ -1,17 +1,20 @@
 (ns easyreagentserver.fullstack.chat
-  (:require [monger.core :as mg]
-            [monger.query :as mq]
-            [easyreagentserver.core :as er-server]
-            [monger.collection :as mc]
-            [ring.websocket :as ws]
-            [clojure.string]
-            [compojure.core :refer [context defroutes GET POST]]
-            [easyreagentserver.fullstack.db :refer [db conn]]
-            [clojure.data.json :as json]))
+  (:require
+   [clojure.data.json :as json]
+   [clojure.string]
+   [compojure.core :refer [context defroutes GET POST]]
+   [easyreagentserver.core :as er-server]
+   [easyreagentserver.fullstack.config :as config]
+   [easyreagentserver.fullstack.db :refer [db]]
+   [monger.collection :as mc]
+   [ring.websocket :as ws]))
 
 
 
-(def messages-table (atom "easyreagent-messages"))
+(config/create-component-config
+ :messages
+ messages-table {:default-value "easyreagent-messages"})
+
 
 (defn get-chat-type [chat-id]
   (keyword (second (re-find #"(.*?)-" chat-id))))

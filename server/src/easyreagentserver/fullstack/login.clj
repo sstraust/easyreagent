@@ -1,14 +1,19 @@
 (ns easyreagentserver.fullstack.login
-  (:require [easyreagentserver.fullstack.db :refer [db conn]]
-            [compojure.core :refer [context defroutes GET POST]]
-            [easyreagentserver.internal :as er-internal]
-            [monger.collection :as mc])
-  (:import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
-           [org.bson.types ObjectId]))
+  (:require
+   [compojure.core :refer [context defroutes POST]]
+   [easyreagentserver.fullstack.config :as config]
+   [easyreagentserver.fullstack.db :refer [db]]
+   [easyreagentserver.internal :as er-internal]
+   [monger.collection :as mc])
+  (:import
+   [org.bson.types ObjectId]
+   org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder))
+
+(config/create-component-config
+ :login
+ users-table {:default-value "easyreagent-users"})
 
 (def password-encoder (BCryptPasswordEncoder.))
-
-(def users-table (atom "easyreagent-users"))
 
 
 ;; I've decided that I want to use the identifier map

@@ -1,10 +1,14 @@
 (ns easyreagentserver.fullstack.db
-  (:require [monger.core :as mg]
-            [monger.ring.session-store :refer [monger-store]]))
-
+  (:require
+   [easyreagentserver.fullstack.config :as config]
+   [monger.core :as mg]
+   [monger.ring.session-store :refer [monger-store]]))
 
 (def conn (mg/connect))
-(def db (atom (mg/get-db conn "easyreagent-test")))
+
+(config/create-component-config
+ :top-level
+ db {:default-value (mg/get-db conn "easyreagent-test")})
 
 (defn get-session-store []
   (monger-store @db "easyreagent-sessions"))

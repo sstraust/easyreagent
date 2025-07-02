@@ -1,9 +1,9 @@
 goog.provide('easyreagent.fullstack.dashboard');
 easyreagent.fullstack.dashboard.dashboard_data = reagent.core.atom.cljs$core$IFn$_invoke$arity$1(null);
 easyreagent.fullstack.dashboard.load_dashboard_data = (function easyreagent$fullstack$dashboard$load_dashboard_data(){
-var c__21516__auto__ = cljs.core.async.chan.cljs$core$IFn$_invoke$arity$1((1));
+var c__21496__auto__ = cljs.core.async.chan.cljs$core$IFn$_invoke$arity$1((1));
 cljs.core.async.impl.dispatch.run((function (){
-var f__21517__auto__ = (function (){var switch__21451__auto__ = (function (state_24000){
+var f__21497__auto__ = (function (){var switch__21451__auto__ = (function (state_24000){
 var state_val_24001 = (state_24000[(1)]);
 if((state_val_24001 === (7))){
 var state_24000__$1 = state_24000;
@@ -300,15 +300,15 @@ easyreagent$fullstack$dashboard$load_dashboard_data_$_state_machine__21452__auto
 return easyreagent$fullstack$dashboard$load_dashboard_data_$_state_machine__21452__auto__;
 })()
 })();
-var state__21518__auto__ = (function (){var statearr_24028 = f__21517__auto__();
-(statearr_24028[(6)] = c__21516__auto__);
+var state__21498__auto__ = (function (){var statearr_24028 = f__21497__auto__();
+(statearr_24028[(6)] = c__21496__auto__);
 
 return statearr_24028;
 })();
-return cljs.core.async.impl.ioc_helpers.run_state_machine_wrapped(state__21518__auto__);
+return cljs.core.async.impl.ioc_helpers.run_state_machine_wrapped(state__21498__auto__);
 }));
 
-return c__21516__auto__;
+return c__21496__auto__;
 });
 easyreagent.fullstack.dashboard.dashboard = (function easyreagent$fullstack$dashboard$dashboard(){
 return new cljs.core.PersistentVector(null, 5, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"v-box","v-box",-1635293073),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"div","div",1057191632),"Dashboard!"], null),new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"div","div",1057191632),"Users count: ",new cljs.core.Keyword(null,"users-count","users-count",-712835550).cljs$core$IFn$_invoke$arity$1(cljs.core.deref(easyreagent.fullstack.dashboard.dashboard_data))], null),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"div","div",1057191632),"Feedback: "], null),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [easyreagent.fullstack.chat.prev_messages,"feedback-all"], null)], null);
