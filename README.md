@@ -114,7 +114,6 @@ An example is a comments section that contains the comments UI (i.e. a textbox, 
 ;; on the client-side
 (require '[easyreagent.fullstack.login :as er-login])
 [er-login/login-or-signup (r/atom ::er-login/signup)]
-<<<<<<< HEAD
 
 ;; on the server side, add this to your routes
 (require '[easyreagentserver.fullstack.login :as er-login])
@@ -138,8 +137,6 @@ for example:
 EasyReagent uses [DaisyUI](https://daisyui.com/) for most of its styling. This means it's easy to change the high-level design and layout of our components using DaisyUI themes, and tailwind configuration.
 
 Additionally, most easyreagent accept a map, similar to hiccup, where you can pass in your own :class, and :style fields. In some cases, to make it easy to re-style deeply nested components, easyreagent defines also css classes that you can modify in your own css. In general, _you should not override these classes, unless they are explicitly documented as customizable_, because they may change during library development.
-=======
->>>>>>> 9ba02e82998bca66e5e14ca443f1e9773df15ff2
 
 ;; on the server side, add this to your routes
 (require '[easyreagentserver.fullstack.login :as er-login])
