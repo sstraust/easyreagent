@@ -10,6 +10,11 @@
 
 (def users-table (atom "easyreagent-users"))
 
+
+;; I've decided that I want to use the identifier map
+;; but refactor the actual signup and login implementations
+;; to a passportjs style strategy
+;; that takes the identifier key as input
 (defn identifier-key []
   :email)
 (defn identifier-map [user]
@@ -17,7 +22,7 @@
 
 (def User
   [:map {:closed false}
-   [:email string?]
+   [(identifier-key) string?]
    [:password-hash string?]])
 
 
@@ -65,7 +70,7 @@
 (defn get-auth-user-if-present [params]
   (and
    (:id-str (:session params))
-   (dissoc (mc/find-one-as-map @db "easyreagent-users" {:_id (ObjectId. (:id-str (:session params)))})
+   (dissoc (mc/find-one-as-map @db @users-table {:_id (ObjectId. (:id-str (:session params)))})
            :password-hash)))
 
 (defn wrap-session-user [handler]

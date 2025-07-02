@@ -59,8 +59,7 @@
    {:username username
     :password password}
    :success login-success-action
-   :failure #(js/alert (str "Login Failed!: " %))
-   ))
+   :failure #(js/alert (str "Login Failed!: " %))))
 
 (defc login-form [login-success-action]
   (let [username (r/atom "")

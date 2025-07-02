@@ -114,6 +114,32 @@ An example is a comments section that contains the comments UI (i.e. a textbox, 
 ;; on the client-side
 (require '[easyreagent.fullstack.login :as er-login])
 [er-login/login-or-signup (r/atom ::er-login/signup)]
+<<<<<<< HEAD
+
+;; on the server side, add this to your routes
+(require '[easyreagentserver.fullstack.login :as er-login])
+(defroutes routes
+	er-login/login-routes)
+```
+
+If you started your web server with er-server/run-web-server, this will use middleware to add :er-session-user (representing the currently logged in user) to every web request. If you start your server by other means, you can add it with ```er-login/wrap-session-user```
+
+for example:
+```
+;; if you have this in your routes definition
+(POST "/listUsersSavedInfo" params (list-users-saved-info params))
+;; then you can do
+(defn list-users-saved-info [{er-session-user :er-session-user :as params}]
+;; do something with er-session-user, er-session-user is the database info for a user
+;;  e.g. {:_id 123 (the mongodb id)  :e-mail "steve" (the username or e-mail of the user)}
+```
+
+## Customizing Styles
+EasyReagent uses [DaisyUI](https://daisyui.com/) for most of its styling. This means it's easy to change the high-level design and layout of our components using DaisyUI themes, and tailwind configuration.
+
+Additionally, most easyreagent accept a map, similar to hiccup, where you can pass in your own :class, and :style fields. In some cases, to make it easy to re-style deeply nested components, easyreagent defines also css classes that you can modify in your own css. In general, _you should not override these classes, unless they are explicitly documented as customizable_, because they may change during library development.
+=======
+>>>>>>> 9ba02e82998bca66e5e14ca443f1e9773df15ff2
 
 ;; on the server side, add this to your routes
 (require '[easyreagentserver.fullstack.login :as er-login])
@@ -133,6 +159,7 @@ for example:
 ;;  e.g. {:_id 123 (the mongodb id)  :id_str "steve" (the username or e-mail of the user)}
 ```
 
+There are a few components that still use inline css, but as a library we try to stick to the convention that everything is defined using tailwind classes or new css classes.
 
 # Installation
 To get this library, add
@@ -171,15 +198,6 @@ In order for server-side components to work correctly, we recommend using easyre
 If you run it with your own custom configuration, you need to:
 * Make sure your app uses the keywordize keys middleware 
 * Includes the libraries for websockets
-
-
-## Selling Points
-
-- **We use the same (hiccup-like) syntax as Reagent**. If you know how to use Reagent, you'll know how to use this library.
-- **We support client+server components**. This means you can use our chatbox UI component, but _also_ get a full messaging app implementation.
-- **It's not a big commitment.** You can use bits and pieces of this library without buying into our whole ecosystem. If you want just 1 component, you can use it and it works. If you want just the client-side of a client-server component, you can do that as well.
-
-Demos: [sprinklz.io](https://sprinklz.io), [wordfinder9000](https://wordfinder9000.com/)
 
 
 ## Design philosophy
