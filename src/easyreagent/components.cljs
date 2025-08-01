@@ -83,7 +83,7 @@
                             ((:on-enter attr-map))
                             (.preventDefault event)))
            :value @curr-value-atom
-           :class "input input-bordered w-full"}])
+           :class "input input-bordered w-full focus:outline-none focus:border-current"}])
 
 (defc text-area [curr-value-atom]
   [:textarea {:on-change (fn [val] (do
@@ -281,5 +281,8 @@
     :addInternationalOption false
     :countries ["US"]
     :onChange (fn [val] (reset! phone-number-atom val))}])
+
+
+
 ;; test change3
 "hero hero-content"

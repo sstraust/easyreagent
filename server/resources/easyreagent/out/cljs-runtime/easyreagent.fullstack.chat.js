@@ -10,25 +10,25 @@ easyreagent.fullstack.chat.prev_messages = (function easyreagent$fullstack$chat$
 return (function (chat_id__$1){
 easyreagent.fullstack.chat_state.fetch_messages_once(chat_id__$1);
 
-return new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"v-box.er-fullstack-chat-prev-messages-view","v-box.er-fullstack-chat-prev-messages-view",432009959),(function (){var iter__5520__auto__ = (function easyreagent$fullstack$chat$prev_messages_$_iter__23952(s__23953){
+return new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"v-box.er-fullstack-chat-prev-messages-view","v-box.er-fullstack-chat-prev-messages-view",432009959),(function (){var iter__5520__auto__ = (function easyreagent$fullstack$chat$prev_messages_$_iter__23724(s__23725){
 return (new cljs.core.LazySeq(null,(function (){
-var s__23953__$1 = s__23953;
+var s__23725__$1 = s__23725;
 while(true){
-var temp__5823__auto__ = cljs.core.seq(s__23953__$1);
+var temp__5823__auto__ = cljs.core.seq(s__23725__$1);
 if(temp__5823__auto__){
-var s__23953__$2 = temp__5823__auto__;
-if(cljs.core.chunked_seq_QMARK_(s__23953__$2)){
-var c__5518__auto__ = cljs.core.chunk_first(s__23953__$2);
+var s__23725__$2 = temp__5823__auto__;
+if(cljs.core.chunked_seq_QMARK_(s__23725__$2)){
+var c__5518__auto__ = cljs.core.chunk_first(s__23725__$2);
 var size__5519__auto__ = cljs.core.count(c__5518__auto__);
-var b__23955 = cljs.core.chunk_buffer(size__5519__auto__);
-if((function (){var i__23954 = (0);
+var b__23727 = cljs.core.chunk_buffer(size__5519__auto__);
+if((function (){var i__23726 = (0);
 while(true){
-if((i__23954 < size__5519__auto__)){
-var message = cljs.core._nth(c__5518__auto__,i__23954);
-cljs.core.chunk_append(b__23955,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"p","p",151049309),new cljs.core.Keyword(null,"title","title",636505583).cljs$core$IFn$_invoke$arity$1(message)], null));
+if((i__23726 < size__5519__auto__)){
+var message = cljs.core._nth(c__5518__auto__,i__23726);
+cljs.core.chunk_append(b__23727,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"p","p",151049309),new cljs.core.Keyword(null,"title","title",636505583).cljs$core$IFn$_invoke$arity$1(message)], null));
 
-var G__23956 = (i__23954 + (1));
-i__23954 = G__23956;
+var G__23736 = (i__23726 + (1));
+i__23726 = G__23736;
 continue;
 } else {
 return true;
@@ -36,13 +36,13 @@ return true;
 break;
 }
 })()){
-return cljs.core.chunk_cons(cljs.core.chunk(b__23955),easyreagent$fullstack$chat$prev_messages_$_iter__23952(cljs.core.chunk_rest(s__23953__$2)));
+return cljs.core.chunk_cons(cljs.core.chunk(b__23727),easyreagent$fullstack$chat$prev_messages_$_iter__23724(cljs.core.chunk_rest(s__23725__$2)));
 } else {
-return cljs.core.chunk_cons(cljs.core.chunk(b__23955),null);
+return cljs.core.chunk_cons(cljs.core.chunk(b__23727),null);
 }
 } else {
-var message = cljs.core.first(s__23953__$2);
-return cljs.core.cons(new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"p","p",151049309),new cljs.core.Keyword(null,"title","title",636505583).cljs$core$IFn$_invoke$arity$1(message)], null),easyreagent$fullstack$chat$prev_messages_$_iter__23952(cljs.core.rest(s__23953__$2)));
+var message = cljs.core.first(s__23725__$2);
+return cljs.core.cons(new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"p","p",151049309),new cljs.core.Keyword(null,"title","title",636505583).cljs$core$IFn$_invoke$arity$1(message)], null),easyreagent$fullstack$chat$prev_messages_$_iter__23724(cljs.core.rest(s__23725__$2)));
 }
 } else {
 return null;
