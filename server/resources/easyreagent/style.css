@@ -3947,6 +3947,11 @@ details.collapse summary::-webkit-details-marker {
   padding-right: 8rem;
 }
 
+.px-4 {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
 .px-8 {
   padding-left: 2rem;
   padding-right: 2rem;

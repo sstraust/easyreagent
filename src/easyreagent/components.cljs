@@ -187,6 +187,21 @@
   ([options content]
    [:h-box.w-full.justify-end.er-submit-button-container.mt-4
     [:button options content]]))
+
+(defn confirm-action-popup
+  [text callback]
+  (r/with-let [callback-shown (r/atom true)]
+    (create-popup
+     callback-shown
+     [:v-box.p-2.px-4
+      [:div text]
+      [:h-box.w-full.justify-between.er-submit-button-container.mt-4
+       [:button.btn.btn-primary {:on-click #(swap! callback-shown not)}
+        "No"]
+       [:button.btn.btn-primary {:on-click #(do
+                                             (callback)
+                                             (swap! callback-shown not))}
+        "Yes"]]])))
   
 
 (defn create-alert
