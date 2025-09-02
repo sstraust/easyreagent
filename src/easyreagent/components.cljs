@@ -189,8 +189,9 @@
     [:button options content]]))
 
 (defn confirm-action-popup
-  [text callback]
-  (r/with-let [callback-shown (r/atom true)]
+  [text callback & {:keys [show-loading] :or {show-loading false}}]
+  (r/with-let [callback-shown (r/atom true)
+               is-loading (r/atom false)]
     (create-popup
      callback-shown
      [:v-box.p-2.px-4
@@ -198,10 +199,17 @@
       [:h-box.w-full.justify-between.er-submit-button-container.mt-4
        [:button.btn.btn-primary {:on-click #(swap! callback-shown not)}
         "No"]
+       (if @is-loading
+         [:div "loading..."]
        [:button.btn.btn-primary {:on-click #(do
-                                             (callback)
-                                             (swap! callback-shown not))}
-        "Yes"]]])))
+                                              (if show-loading
+                                                (do
+                                                  (reset! is-loading true)
+                                                  (callback callback-shown))
+                                                (do 
+                                                  (callback)
+                                                  (swap! callback-shown not))))}
+        "Yes"])]])))
   
 
 (defn create-alert
