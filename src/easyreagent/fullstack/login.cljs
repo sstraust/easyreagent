@@ -113,7 +113,7 @@
     :failure (fn [] (js/alert "failed to sign out"))))
 
 
-
+(def ^:private is-logged-in-atom (r/atom false))
 (def curr-logged-in-name (r/atom "Logged Out"))
 (defn get-login-user-helper []
   (er-util/post-request
@@ -121,6 +121,7 @@
    {}
     :json-response (fn [resp]
                      (when (first (vals resp))
+                       (reset! is-logged-in-atom true)
                        (reset! curr-logged-in-name
                                (first (vals resp)))))
    :failure identity))
@@ -169,3 +170,8 @@
          [:a "Log Out"]])]]
      ;; @curr-logged-in-name
     )))
+
+
+(defn is-logged-in? []
+  (get-login-user)
+  @is-logged-in-atom)
