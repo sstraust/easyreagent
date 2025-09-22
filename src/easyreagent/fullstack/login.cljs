@@ -13,12 +13,17 @@
 
 ;; I SHOULD PROBABLY BUILD SINGUP FORM first
 (defn handle-signup-submit [event username password
-                            signup-success-action]
+                            signup-success-action
+                            & {:keys [signup-submit-path extra-signup-data]
+                               :or {signup-submit-path "/easyreagent/fullstack/login/submitSignup"
+                                    extra-signup-data nil}}]
   (.preventDefault event)
   (er-util/post-request
-   "/easyreagent/fullstack/login/submitSignup"
-   {:username username
-    :password password}
+   signup-submit-path
+      (merge
+       extra-signup-data
+       {:username username
+        :password password})
    :success signup-success-action
    :failure #(js/alert (str "Signup failed due to: " %))))
 
@@ -30,7 +35,8 @@
      [:form.card-body
       {:on-submit (fn [event] (handle-signup-submit
                                event @username @password
-                               signup-success-action))}
+                               signup-success-action
+                               attr-map))}
       [:h1.text-3xl "Sign Up"]
       
       [:v-box.mr-8.ml-4
@@ -87,7 +93,7 @@
       (::subheading attr-map)]
      ])))
 
-(defn login-or-signup [currently-shown success-action]
+(defn login-or-signup [currently-shown success-action & {:as options}]
   (case @currently-shown
         ::login [login-form {::subheading
                              [:p.mx-2.text-xs.text-center.mt-4
@@ -97,14 +103,14 @@
                               "Sign Up"]]}
                             success-action]
         ::signup [signup-form
+                  (merge (when (map? options) options)
                  {::subheading
                   [:p.mx-4.text-xs.mt-4.text-center
                    ;; {:style {:font-size "0.8rem"}}
                    "Already have an account? "
                    [:a.link.text-primary {:on-click #(reset! currently-shown ::login)}
-                              "Sign In"]]}
-                  success-action]
-        ))
+                              "Sign In"]]})
+                  success-action]))
 
 (defn log-out-action []
   (er-util/post-request "/logOut"

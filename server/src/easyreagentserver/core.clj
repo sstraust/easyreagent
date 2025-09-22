@@ -78,6 +78,7 @@
 (def json-response internal/json-response)
 
 (def is-failure-response? internal/is-failure-response?)
+(def is-success-response? internal/is-success-response?)
 
 (def get-failure-message internal/get-failure-message)
 

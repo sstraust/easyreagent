@@ -23,6 +23,12 @@
                :key-fn keyword))
      "failure"))
 
+(defn is-success-response? [response]
+  (= (:result (json/read-str
+               (:body response)
+               :key-fn keyword))
+     "success"))
+
 (defn get-failure-message [response]
   (:reason (json/read-str
                (:body response)
