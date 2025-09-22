@@ -115,12 +115,12 @@ return null;
 }));
 
 (easyreagent.components.text_field.cljs$core$IFn$_invoke$arity$2 = (function (attr_map,curr_value_atom){
-var G__23644 = cljs.core.atom.cljs$core$IFn$_invoke$arity$1(attr_map);
+var G__23642 = cljs.core.atom.cljs$core$IFn$_invoke$arity$1(attr_map);
 var result__23617__auto__ = new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"input","input",556931961),new cljs.core.PersistentArrayMap(null, 4, [new cljs.core.Keyword(null,"on-change","on-change",-732046149),(function (val){
 return cljs.core.reset_BANG_(curr_value_atom,val.target.value);
 }),new cljs.core.Keyword(null,"on-key-down","on-key-down",-1374733765),(function (event){
-if(((cljs.core._EQ_.cljs$core$IFn$_invoke$arity$2((13),event.keyCode)) && ((!((new cljs.core.Keyword(null,"on-enter","on-enter",-928988216).cljs$core$IFn$_invoke$arity$1(cljs.core.deref(G__23644)) == null)))))){
-var fexpr__23650_23725 = new cljs.core.Keyword(null,"on-enter","on-enter",-928988216).cljs$core$IFn$_invoke$arity$1(cljs.core.deref(G__23644));
+if(((cljs.core._EQ_.cljs$core$IFn$_invoke$arity$2((13),event.keyCode)) && ((!((new cljs.core.Keyword(null,"on-enter","on-enter",-928988216).cljs$core$IFn$_invoke$arity$1(cljs.core.deref(G__23642)) == null)))))){
+var fexpr__23650_23725 = new cljs.core.Keyword(null,"on-enter","on-enter",-928988216).cljs$core$IFn$_invoke$arity$1(cljs.core.deref(G__23642));
 (fexpr__23650_23725.cljs$core$IFn$_invoke$arity$0 ? fexpr__23650_23725.cljs$core$IFn$_invoke$arity$0() : fexpr__23650_23725.call(null, ));
 
 return event.preventDefault();
@@ -132,7 +132,7 @@ if((!(cljs.core.fn_QMARK_(result__23617__auto__)))){
 return easyreagent.create_component.with_attr_map(attr_map,result__23617__auto__);
 } else {
 return (function (attr_map__$1,curr_value_atom__$1){
-cljs.core.reset_BANG_(G__23644,attr_map__$1);
+cljs.core.reset_BANG_(G__23642,attr_map__$1);
 
 return easyreagent.create_component.with_attr_map(attr_map__$1,cljs.core.apply.cljs$core$IFn$_invoke$arity$2(result__23617__auto__,new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [curr_value_atom__$1], null)));
 });
@@ -318,8 +318,8 @@ if((cljs.core.deref(curr_time) > end_time)){
 cljs.core.reset_BANG_(time_ended,true);
 
 if((!((new cljs.core.Keyword(null,"on-ended","on-ended",428118347).cljs$core$IFn$_invoke$arity$1(attr_map) == null)))){
-var fexpr__23682 = new cljs.core.Keyword(null,"on-ended","on-ended",428118347).cljs$core$IFn$_invoke$arity$1(attr_map);
-return (fexpr__23682.cljs$core$IFn$_invoke$arity$0 ? fexpr__23682.cljs$core$IFn$_invoke$arity$0() : fexpr__23682.call(null, ));
+var fexpr__23679 = new cljs.core.Keyword(null,"on-ended","on-ended",428118347).cljs$core$IFn$_invoke$arity$1(attr_map);
+return (fexpr__23679.cljs$core$IFn$_invoke$arity$0 ? fexpr__23679.cljs$core$IFn$_invoke$arity$0() : fexpr__23679.call(null, ));
 } else {
 return null;
 }
@@ -625,8 +625,8 @@ var with_let23705 = reagent.ratom.with_let_values(new cljs.core.Keyword(null,"wi
 var temp__5827__auto___23746 = reagent.ratom._STAR_ratom_context_STAR_;
 if((temp__5827__auto___23746 == null)){
 } else {
-var c__20050__auto___23747 = temp__5827__auto___23746;
-if((with_let23705.generation === c__20050__auto___23747.ratomGeneration)){
+var c__20065__auto___23747 = temp__5827__auto___23746;
+if((with_let23705.generation === c__20065__auto___23747.ratomGeneration)){
 if(reagent.debug.has_console){
 ((reagent.debug.tracking)?reagent.debug.track_console:console).error(["Warning: The same with-let is being used more ","than once in the same reactive context."].join(''));
 } else {
@@ -634,7 +634,7 @@ if(reagent.debug.has_console){
 } else {
 }
 
-(with_let23705.generation = c__20050__auto___23747.ratomGeneration);
+(with_let23705.generation = c__20065__auto___23747.ratomGeneration);
 }
 
 var init23706 = (with_let23705.length === (0));

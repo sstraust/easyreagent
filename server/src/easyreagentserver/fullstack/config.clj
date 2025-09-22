@@ -33,6 +33,6 @@
 
 (defn configure-fullstack-components [options]
   (let [aligned-args (deep-merge @args-map options)]
-    (walk-vals (fn [args] (when (= (count args) 2)
+    (walk-vals (fn [args] (when (and (seq? args) (= (count args) 2))
                             (reset! (first args) (second args))))
                aligned-args)))
