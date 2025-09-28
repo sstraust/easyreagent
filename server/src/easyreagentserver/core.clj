@@ -17,7 +17,8 @@
    [ring.middleware.json :refer [wrap-json-params]]
    [ring.middleware.keyword-params :refer [wrap-keyword-params]]
    [ring.middleware.params :only [wrap-params] :refer [wrap-params]]
-   [ring.middleware.session :refer [wrap-session]]))
+   [ring.middleware.session :refer [wrap-session]]
+   [monger.collection :as mc]))
 
 (def MODE (atom
            (if (= (:clojure-project-mode env) "dev")
@@ -97,3 +98,35 @@
   [:meta#global-easyreagent-metadata
    {:server-data (hiccup.util/escape-html (json/write-str data-map))}])
   
+
+(def debug-only--globally-disable-database-cache (atom false))
+;; using this current-time-millis so you can have with-redefs for testing
+(defn current-time-millis []
+  (System/currentTimeMillis))
+(defn cache-to-db [input-fn mongo-table-name & {:keys [ttl-millis]}]
+  (fn [& args]
+    (let [db-entry (mc/find-one-as-map @er-db/db mongo-table-name
+                                    {:query-str (str args)})
+          db-result (get db-entry
+                       :result)]
+    (if (and db-result (not @debug-only--globally-disable-database-cache)
+             (or (not ttl-millis) (< (current-time-millis)
+                                     (+ (:insert-millis db-entry) ttl-millis)))
+             (or (not (list? db-result))
+                 (not (empty? db-result))))
+      db-result
+      (let [result (apply input-fn args)]
+        (mc/update @er-db/db mongo-table-name
+                   {:query-str (str args)}
+                   {:query-str (str args)
+                    :result result
+                    :insert-time (java.util.Date.)
+                    :insert-millis (current-time-millis)}
+                   {:upsert true})
+        result)))))
+
+
+(comment
+
+
+  )

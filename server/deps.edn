@@ -17,6 +17,11 @@
          net.clojars.wkok/openai-clojure {:mvn/version "0.14.0"}
         org.springframework.security/spring-security-core {:mvn/version "5.7.5"}
         clj-http/clj-http {:mvn/version "3.13.0"}
-  }
-}
+        }
 
+ :aliases
+ {:test {:extra-paths ["test"]
+         :extra-deps {;; Test-only dependencies
+                      de.flapdoodle.embed/de.flapdoodle.embed.mongo {:mvn/version "3.5.4"}
+                      }}}
+}
