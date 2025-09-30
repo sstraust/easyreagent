@@ -230,6 +230,8 @@
 (def modal-info-view-width 500)
 (defc with-modal-info [description content]
   (let [is-shown (or (:is-shown attr-map) (r/atom false))
+        y-offset (or (:y-offset attr-map) 0)
+        x-offset (or (:x-offset attr-map) 0)
         curr-id (rand-id)
         curr-pos-x (r/atom nil)
         curr-pos-y (r/atom nil)
@@ -271,17 +273,17 @@
                          position-map)}
           [:div {:style (case (:anchor-position attr-map)
                           :right {:position "absolute"
-                                  :left 0
-                                  :top 0}
+                                  :left x-offset
+                                  :top y-offset}
                           :bottom {:position "absolute"
-                                   :left 0
-                                   :top 0}
+                                   :left x-offset
+                                   :top y-offset}
                           :top {:position "absolute"
-                                :left 0
-                                :bottom 0}
+                                :left x-offset
+                                :bottom (- y-offset)}
                           {:position "absolute"
-                                 :right 0
-                                 :top 0})}
+                                 :right (- x-offset)
+                                 :top y-offset})}
            [:div.er-modal-info-text.text-base-content.bg-base-100.border-base-content.border-solid.border-2
             {:style {:width "fit-content"
                      :height "fit-content"}}

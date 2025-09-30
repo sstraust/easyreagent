@@ -124,9 +124,3 @@
                     :insert-millis (current-time-millis)}
                    {:upsert true})
         result)))))
-
-
-(comment
-
-
-  )
