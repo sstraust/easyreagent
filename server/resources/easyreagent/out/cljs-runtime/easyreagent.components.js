@@ -318,8 +318,8 @@ if((cljs.core.deref(curr_time) > end_time)){
 cljs.core.reset_BANG_(time_ended,true);
 
 if((!((new cljs.core.Keyword(null,"on-ended","on-ended",428118347).cljs$core$IFn$_invoke$arity$1(attr_map) == null)))){
-var fexpr__23678 = new cljs.core.Keyword(null,"on-ended","on-ended",428118347).cljs$core$IFn$_invoke$arity$1(attr_map);
-return (fexpr__23678.cljs$core$IFn$_invoke$arity$0 ? fexpr__23678.cljs$core$IFn$_invoke$arity$0() : fexpr__23678.call(null, ));
+var fexpr__23664 = new cljs.core.Keyword(null,"on-ended","on-ended",428118347).cljs$core$IFn$_invoke$arity$1(attr_map);
+return (fexpr__23664.cljs$core$IFn$_invoke$arity$0 ? fexpr__23664.cljs$core$IFn$_invoke$arity$0() : fexpr__23664.call(null, ));
 } else {
 return null;
 }
@@ -329,8 +329,8 @@ return cljs.core.reset_BANG_(curr_time,Date.now());
 }
 });
 easyreagent.components.timer = (function easyreagent$components$timer(var_args){
-var G__23685 = arguments.length;
-switch (G__23685) {
+var G__23667 = arguments.length;
+switch (G__23667) {
 case 1:
 return easyreagent.components.timer.cljs$core$IFn$_invoke$arity$1((arguments[(0)]));
 
@@ -359,11 +359,11 @@ return new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMP
 }));
 
 (easyreagent.components.timer.cljs$core$IFn$_invoke$arity$2 = (function (attr_map,end_time){
-var G__23683 = cljs.core.atom.cljs$core$IFn$_invoke$arity$1(attr_map);
+var G__23665 = cljs.core.atom.cljs$core$IFn$_invoke$arity$1(attr_map);
 var result__23617__auto__ = (function (){var curr_time = reagent.core.atom.cljs$core$IFn$_invoke$arity$1(Date.now());
 var time_ended = reagent.core.atom.cljs$core$IFn$_invoke$arity$1(false);
 setInterval((function (){
-return easyreagent.components.reset_timer_and_check_end(curr_time,end_time,time_ended,cljs.core.deref(G__23683));
+return easyreagent.components.reset_timer_and_check_end(curr_time,end_time,time_ended,cljs.core.deref(G__23665));
 }),(100));
 
 return (function (){
@@ -374,7 +374,7 @@ if((!(cljs.core.fn_QMARK_(result__23617__auto__)))){
 return easyreagent.create_component.with_attr_map(attr_map,result__23617__auto__);
 } else {
 return (function (attr_map__$1,end_time__$1){
-cljs.core.reset_BANG_(G__23683,attr_map__$1);
+cljs.core.reset_BANG_(G__23665,attr_map__$1);
 
 return easyreagent.create_component.with_attr_map(attr_map__$1,cljs.core.apply.cljs$core$IFn$_invoke$arity$2(result__23617__auto__,new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [end_time__$1], null)));
 });
@@ -384,8 +384,8 @@ return easyreagent.create_component.with_attr_map(attr_map__$1,cljs.core.apply.c
 (easyreagent.components.timer.cljs$lang$maxFixedArity = 2);
 
 easyreagent.components.pausable_timer = (function easyreagent$components$pausable_timer(var_args){
-var G__23688 = arguments.length;
-switch (G__23688) {
+var G__23684 = arguments.length;
+switch (G__23684) {
 case 1:
 return easyreagent.components.pausable_timer.cljs$core$IFn$_invoke$arity$1((arguments[(0)]));
 
@@ -433,13 +433,13 @@ return new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMP
 }));
 
 (easyreagent.components.pausable_timer.cljs$core$IFn$_invoke$arity$2 = (function (attr_map,secs_left){
-var G__23686 = cljs.core.atom.cljs$core$IFn$_invoke$arity$1(attr_map);
+var G__23682 = cljs.core.atom.cljs$core$IFn$_invoke$arity$1(attr_map);
 var result__23617__auto__ = (function (){var start_time = Date.now();
 var time_ended = reagent.core.atom.cljs$core$IFn$_invoke$arity$1(false);
 setInterval((function (){
-if((((cljs.core.deref(secs_left) > (0))) && (cljs.core.not((function (){var and__5041__auto____$1 = new cljs.core.Keyword(null,"is-timer-paused","is-timer-paused",-2007418263).cljs$core$IFn$_invoke$arity$1(cljs.core.deref(G__23686));
+if((((cljs.core.deref(secs_left) > (0))) && (cljs.core.not((function (){var and__5041__auto____$1 = new cljs.core.Keyword(null,"is-timer-paused","is-timer-paused",-2007418263).cljs$core$IFn$_invoke$arity$1(cljs.core.deref(G__23682));
 if(cljs.core.truth_(and__5041__auto____$1)){
-var fexpr__23691 = new cljs.core.Keyword(null,"is-timer-paused","is-timer-paused",-2007418263).cljs$core$IFn$_invoke$arity$1(cljs.core.deref(G__23686));
+var fexpr__23691 = new cljs.core.Keyword(null,"is-timer-paused","is-timer-paused",-2007418263).cljs$core$IFn$_invoke$arity$1(cljs.core.deref(G__23682));
 return (fexpr__23691.cljs$core$IFn$_invoke$arity$0 ? fexpr__23691.cljs$core$IFn$_invoke$arity$0() : fexpr__23691.call(null, ));
 } else {
 return and__5041__auto____$1;
@@ -449,8 +449,8 @@ cljs.core.swap_BANG_.cljs$core$IFn$_invoke$arity$2(secs_left,cljs.core.dec);
 } else {
 }
 
-if(((cljs.core._EQ_.cljs$core$IFn$_invoke$arity$2(cljs.core.deref(secs_left),(0))) && (((cljs.core.not(cljs.core.deref(time_ended))) && ((!((new cljs.core.Keyword(null,"on-ended","on-ended",428118347).cljs$core$IFn$_invoke$arity$1(cljs.core.deref(G__23686)) == null)))))))){
-var fexpr__23692_23734 = new cljs.core.Keyword(null,"on-ended","on-ended",428118347).cljs$core$IFn$_invoke$arity$1(cljs.core.deref(G__23686));
+if(((cljs.core._EQ_.cljs$core$IFn$_invoke$arity$2(cljs.core.deref(secs_left),(0))) && (((cljs.core.not(cljs.core.deref(time_ended))) && ((!((new cljs.core.Keyword(null,"on-ended","on-ended",428118347).cljs$core$IFn$_invoke$arity$1(cljs.core.deref(G__23682)) == null)))))))){
+var fexpr__23692_23734 = new cljs.core.Keyword(null,"on-ended","on-ended",428118347).cljs$core$IFn$_invoke$arity$1(cljs.core.deref(G__23682));
 (fexpr__23692_23734.cljs$core$IFn$_invoke$arity$0 ? fexpr__23692_23734.cljs$core$IFn$_invoke$arity$0() : fexpr__23692_23734.call(null, ));
 
 return cljs.core.reset_BANG_(time_ended,true);
@@ -467,7 +467,7 @@ if((!(cljs.core.fn_QMARK_(result__23617__auto__)))){
 return easyreagent.create_component.with_attr_map(attr_map,result__23617__auto__);
 } else {
 return (function (attr_map__$1,secs_left__$1){
-cljs.core.reset_BANG_(G__23686,attr_map__$1);
+cljs.core.reset_BANG_(G__23682,attr_map__$1);
 
 return easyreagent.create_component.with_attr_map(attr_map__$1,cljs.core.apply.cljs$core$IFn$_invoke$arity$2(result__23617__auto__,new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [secs_left__$1], null)));
 });
