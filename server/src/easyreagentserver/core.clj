@@ -73,6 +73,7 @@
     (easyreagentserver.fullstack.config/configure-fullstack-components (:fullstack options))
     (println "Server is running on port " (:port options)))
   (catch Exception e
+    (do
         (println "waiting for port to open")
         (Thread/sleep 1000)
         (run-web-server js-dir routes options)))))
