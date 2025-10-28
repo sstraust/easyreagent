@@ -42,6 +42,7 @@
 
 (defonce web-server (atom nil))
 (defn run-web-server [js-dir routes options]
+  (try 
   (when (= @MODE :dev)
     (start-tailwind-server js-dir))
   (when (not (nil? @web-server))
@@ -56,7 +57,6 @@
                                           javascript-routes
                                           css-routes)
         extra-wrappers (or (:extra-wrappers options) identity)]
-    (try 
     (reset! web-server (ring/run-jetty
                         (wrap-gzip
                          (wrap-cookies
@@ -71,12 +71,12 @@
                           )))
                         options))
     (easyreagentserver.fullstack.config/configure-fullstack-components (:fullstack options))
-    (println "Server is running on port " (:port options))
-    (catch BindException e
+    (println "Server is running on port " (:port options)))
+  (catch BindException e
       (do
         (println "waiting for port to open")
         (Thread/sleep 1000)
-        (run-web-server js-dir routes options))))))
+        (run-web-server js-dir routes options)))))
                       
 (def success-response
   internal/success-response)
