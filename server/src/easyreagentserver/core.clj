@@ -18,7 +18,8 @@
    [ring.middleware.keyword-params :refer [wrap-keyword-params]]
    [ring.middleware.params :only [wrap-params] :refer [wrap-params]]
    [ring.middleware.session :refer [wrap-session]]
-   [monger.collection :as mc]))
+   [monger.collection :as mc])
+  (:import  java.net.BindException))
 
 (def MODE (atom
            (if (= (:clojure-project-mode env) "dev")
@@ -55,6 +56,7 @@
                                           javascript-routes
                                           css-routes)
         extra-wrappers (or (:extra-wrappers options) identity)]
+    (try 
     (reset! web-server (ring/run-jetty
                         (wrap-gzip
                          (wrap-cookies
@@ -69,7 +71,12 @@
                           )))
                         options))
     (easyreagentserver.fullstack.config/configure-fullstack-components (:fullstack options))
-    (println "Server is running on port " (:port options))))
+    (println "Server is running on port " (:port options))
+    (catch BindException e
+      (do
+        (println "waiting for port to open")
+        (Thread/sleep 1000)
+        (run-web-server js-dir routes options))))))
                       
 (def success-response
   internal/success-response)
