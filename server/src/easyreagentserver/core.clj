@@ -72,12 +72,13 @@
                         options))
     (easyreagentserver.fullstack.config/configure-fullstack-components (:fullstack options))
     (println "Server is running on port " (:port options)))
-  (catch Exception e
+  (catch java.io.IOException e
     (do
       (println "waiting for port to open")
       (println e)
-      (Thread/sleep 1000)
-      (run-web-server js-dir routes options)))))
+      (when (instance? java.net.BindException (.getCause e))
+        (Thread/sleep 1000)
+        (run-web-server js-dir routes options))))))
                       
 (def success-response
   internal/success-response)
