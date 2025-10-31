@@ -2,52 +2,20 @@
   (:require
    [clojure.test :refer :all]
    [easyreagentserver.core :refer :all]
-   [easyreagentserver.fullstack.config :as config]
+   [easyreagentserver.fixtures.setup-mongo-fixture :as setup-mongo-fixture]
    [easyreagentserver.fullstack.db :as er-db]
    [easyreagentserver.fullstack.login :as er-login]
-   [monger.collection :as mc]
-   [monger.core :as mg])
-  (:import
-   [de.flapdoodle.embed.mongo MongodStarter]
-   [de.flapdoodle.embed.mongo.config MongodConfig Net]
-   [de.flapdoodle.embed.mongo.distribution Version$Main]
-   [de.flapdoodle.embed.process.runtime Network]))
+   [monger.collection :as mc]))
 
 
-(def test-port 37018)
-(defonce ^:private mongod-process (atom nil))
 
-(defn start-embedded-mongo []
-  (let [starter (MongodStarter/getDefaultInstance)
-        config (-> (MongodConfig/builder)
-                   (.version Version$Main/PRODUCTION)
-                   (.net (Net. "localhost" test-port (Network/localhostIsIPv6)))
-                   .build)
-        executable (.prepare starter config)]
-    (reset! mongod-process (.start executable))))
 
-(defn stop-embedded-mongo []
-  (when-let [p @mongod-process]
-    (.stop p)
-    (reset! mongod-process nil)))
-
-(use-fixtures :once
-  (fn [f]
-    (try
-      (start-embedded-mongo)
-      (let [conn  (mg/connect {:host "localhost" :port test-port})
-            db (mg/get-db conn "easyreagent-test")]
-        (config/configure-fullstack-components
-         {:db db}))
-      (f)
-      (finally
-        (stop-embedded-mongo)))))
+(use-fixtures :once setup-mongo-fixture/setup-embedded-mongo-fixture)
 
 
 (deftest verify-mongo-setup
   (testing "verify that the mongodb login table is empty"
     (is (= (mc/count @er-db/db @er-login/users-table) 0))))
-
 
 
 (defprotocol CountProtocol
