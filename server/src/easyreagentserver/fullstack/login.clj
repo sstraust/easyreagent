@@ -15,11 +15,12 @@
 
 (def password-encoder (BCryptPasswordEncoder.))
 
-
 ;; I've decided that I want to use the identifier map
 ;; but refactor the actual signup and login implementations
 ;; to a passportjs style strategy
 ;; that takes the identifier key as input
+;; TODO I want to modify this to make username the default
+;; but I have to be sort of careful around how I do this
 (defn identifier-key []
   :email)
 (defn identifier-map [user]

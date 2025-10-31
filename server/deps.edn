@@ -1,6 +1,12 @@
 {
  :paths ["src" "resources"]
  :deps {
+        io.github.sstraust/slib {:git/url "https://github.com/sstraust/slib.git"
+                                 :git/sha "f070479a5743a3fd5866536a8d92d14f2c38be26"}
+
+        io.github.sstraust/spicyclojuremacros
+        {:git/url "https://github.com/sstraust/spicyclojuremacros.git"
+         :git/sha "f734396220237c1767e10edd06741a1a625eb42f"}
          org.clojure/clojure {:mvn/version "1.11.1"}
          environ/environ {:mvn/version "1.2.0"}
          ring/ring {:mvn/version "1.11.0-RC1"}
