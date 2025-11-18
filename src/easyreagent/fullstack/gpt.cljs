@@ -22,7 +22,6 @@
 (defn start-streaming-text [input-text output-text-atom speed]
   (let [text-tokens (atom (string/split input-text #" "))
         interval-id (atom nil)]
-    (def zz [input-text output-text-atom speed])
     (reset! interval-id
             (js/setInterval
              (fn []
@@ -33,7 +32,7 @@
                  (js/clearInterval @interval-id)))
              speed))))
 
-(defn show-text-streaming [input-text speed]
+(defn ^:public-api show-text-streaming [input-text speed]
   (let [output-text-atom (r/atom "")]
     (start-streaming-text input-text output-text-atom speed)
     (fn [input-text speed]
@@ -45,22 +44,31 @@
 ;; I think GPTChat has to own it, so that there is a single source of control
 ;; maybe it should be one socket per message?
 ;; that way you make sure it doesnt shit itself?
-(defrecord GPTMessage [options tokens-list-atom]
+(defrecord GPTMessage [options tokens-list-atom non-text-responses-atom]
   Message
   (message-text [this]
     (string/join "" @tokens-list-atom))
   Renderable
   (render [this]
     (cond
-      (empty? @tokens-list-atom)
+      (and (empty? @tokens-list-atom)
+           (empty? @non-text-responses-atom))
       [:> Markdown
        {:className "markdown"}
        "Your results will show up here"]
 
+      (:custom-display options)
+      ((:custom-display options)
+       this)
+
       (not (:extra-formatting options))
       [:> Markdown
        {:className "markdown"}
-       (message-text this)]
+       (apply str
+              (concat
+               (map #(str % "\n\n") @non-text-responses-atom)
+               [(message-text this)]))]
+            
 
       :else
       ((:extra-formatting options)
@@ -74,17 +82,18 @@
 
 
 
-(defn create-gpt-socket [curr-result-tokens on-complete]
-  (let [socket-url (get-socket-url)]
+(defn create-gpt-socket [message-object on-complete]
+  (let [socket-url (get-socket-url)
+        curr-result-tokens (:tokens-list-atom message-object)]
     (when-let [chan (js/WebSocket. socket-url)]
       (set! (.-onmessage chan)
             (fn [msg]
               (let [msg-map (js->clj (.parse js/JSON (.-data msg)) :keywordize-keys true)]
                 ;; TODO make it an option whether to display this/what to display
                 (when (= (:type msg-map) "tool_called")
-                  (swap! curr-result-tokens conj (str "tool called: "
-                                                      (:tool_name msg-map)
-                                                      (str (:arguments msg-map)))))
+                  (swap! (:non-text-responses-atom message-object)
+                         conj
+                         (select-keys msg-map [:tool_name :arguments])))
                 (when (not (or (= (:type msg-map) "heartbeat")
                                (= (:type msg-map) "tool_called")))
                   (swap! curr-result-tokens conj (:token msg-map))
@@ -103,21 +112,23 @@
                                   :prompt-endpoint prompt-endpoint}))))))
 
 (defn make-gpt-message [options prompt prompt-endpoint]
-  (let [tokens-list-atom (r/atom [])
-        socket (create-gpt-socket tokens-list-atom (:on-complete options))]
+  (let [gpt-message (GPTMessage. options (r/atom []) (r/atom []))
+        _ (def zz gpt-message)
+        _ (def bb options)
+        socket (create-gpt-socket gpt-message (:on-complete options))]
     ;; send a heartbeat every 3 seconds
     (js/setInterval (fn [] (.send socket "heartbeat")) 3000)
     (get-gpt-results-streaming socket prompt prompt-endpoint)
-    (GPTMessage. options tokens-list-atom)))
+    gpt-message))
 
 
-(defn submit-chat [{:keys [message-history-atom input-atom prompt-endpoint]}]
+(defn submit-chat [{:keys [message-history-atom input-atom prompt-endpoint chat-options]}]
   (swap! message-history-atom
          conj
          (UserMessage. @input-atom))
   (swap! message-history-atom
          conj
-         (make-gpt-message nil @input-atom prompt-endpoint))
+         (make-gpt-message chat-options @input-atom prompt-endpoint))
   (reset! input-atom ""))
 
 (defn gpt-input-box [gpt-chat]
@@ -129,10 +140,9 @@
      (:input-atom gpt-chat)]
     [:button.btn.btn-primary.btn-md.mx-1
      {:on-click (fn [] (submit-chat gpt-chat))}
-     [:> Send {:size 20}]
-     ]]])
+     [:> Send {:size 20}]]]])
 
-(defrecord GPTChat [message-history-atom input-atom prompt-endpoint]
+(defrecord GPTChat [message-history-atom input-atom prompt-endpoint chat-options]
   Renderable
   (render [this]
     [:v-box.easyreagent-fullstack-gpt-gptchat.overflow-y-scroll.scrollbar-hide

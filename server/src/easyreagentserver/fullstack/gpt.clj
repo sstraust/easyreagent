@@ -7,19 +7,25 @@
    [ring.websocket :as ws]
    [wkok.openai-clojure.api :as api]))
 
+;; for documentation only.
+;;   these Malli types are not enforced
+(def SocketMessage
+  [:map
+   [:prompt-input :string]])
 
+(def PromptEndpoint
+  [:map
+   [:system-prompt :string]
+   [:custom-handler
+    [:=> [:cat :socket SocketMessage] nil]]])
+          
 (config/create-component-config
  :gpt
- prompt-endpoints {:default-value
-                   {"default" {:system-prompt ""}}})
+ prompt-endpoints {:default-value {"default" {}}})
 
 (def openai-api-key (:openai-api-key env))
 
 
-;; then when you start streaming gpt
-;; you have the endpoint as an input option
-;; and then for the appropriate endpoint
-;; you call the query with the appropriate system prompt
 (defn start-streaming-gpt [socket message]
   (let [prompt-input (:prompt-input message)
         prompt-endpoint-name (or (:prompt-endpoint message) "default")
@@ -30,7 +36,7 @@
        socket message)
       (api/create-chat-completion
        {:model "gpt-4o"
-        :messages [{:role "system" :content (:system-prompt prompt-endpoint)}
+        :messages [{:role "system" :content (or (:system-prompt prompt-endpoint) "")}
                    {:role "user" :content prompt-input}]
         :stream true
         :on-next (fn [x] (do
@@ -41,9 +47,6 @@
                            (swap! curr-index inc)))}
        {:api-key openai-api-key}))))
 
-
-
-;; (println (api/list-models {:api-key openai-api-key}))
 
 (defn process-gpt-socket-message [socket message]
   (cond
