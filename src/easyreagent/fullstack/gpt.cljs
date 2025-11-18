@@ -89,7 +89,6 @@
       (set! (.-onmessage chan)
             (fn [msg]
               (let [msg-map (js->clj (.parse js/JSON (.-data msg)) :keywordize-keys true)]
-                ;; TODO make it an option whether to display this/what to display
                 (when (= (:type msg-map) "tool_called")
                   (swap! (:non-text-responses-atom message-object)
                          conj
@@ -113,8 +112,6 @@
 
 (defn make-gpt-message [options prompt prompt-endpoint]
   (let [gpt-message (GPTMessage. options (r/atom []) (r/atom []))
-        _ (def zz gpt-message)
-        _ (def bb options)
         socket (create-gpt-socket gpt-message (:on-complete options))]
     ;; send a heartbeat every 3 seconds
     (js/setInterval (fn [] (.send socket "heartbeat")) 3000)
