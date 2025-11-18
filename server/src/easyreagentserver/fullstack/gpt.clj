@@ -1,31 +1,62 @@
 (ns easyreagentserver.fullstack.gpt
-  (:require [environ.core :refer [env]]
-            [wkok.openai-clojure.api :as api]
-            [compojure.core :refer [context defroutes GET POST]]
-            [clojure.data.json :as json]
-            [ring.websocket :as ws]))
+  (:require
+   [clojure.data.json :as json]
+   [compojure.core :refer [context defroutes GET]]
+   [easyreagentserver.fullstack.config :as config]
+   [environ.core :refer [env]]
+   [ring.websocket :as ws]
+   [wkok.openai-clojure.api :as api]))
+
+;; for documentation only.
+;;   these Malli types are not enforced
+(def SocketMessage
+  [:map
+   [:prompt-input :string]])
+
+(def PromptEndpoint
+  [:map
+   [:system-prompt :string]
+   [:custom-handler
+    [:=> [:cat :socket SocketMessage] nil]]])
+          
+(config/create-component-config
+ :gpt
+ prompt-endpoints {:default-value {"default" {}}})
 
 (def openai-api-key (:openai-api-key env))
 
+
 (defn start-streaming-gpt [socket message]
   (let [prompt-input (:prompt-input message)
+        prompt-endpoint-name (or (:prompt-endpoint message) "default")
+        prompt-endpoint (get @prompt-endpoints prompt-endpoint-name)
         curr-index (atom 0)]
-    (api/create-chat-completion
-     {:model "gpt-4o"
-      :messages [{:role "user" :content prompt-input}]
-      :stream true
-      :on-next (fn [x] (do
-                         (ws/send socket
-                                  (json/write-str
-                                   {:token (:content (:delta (first (:choices x))))
-                                    :index @curr-index}))
-                         (swap! curr-index inc)))}
-     {:api-key openai-api-key})))
-;; (println (api/list-models {:api-key openai-api-key}))
+    (if (:custom-handler prompt-endpoint)
+      ((:custom-handler prompt-endpoint)
+       socket message)
+      (api/create-chat-completion
+       {:model "gpt-4o"
+        :messages [{:role "system" :content (or (:system-prompt prompt-endpoint) "")}
+                   {:role "user" :content prompt-input}]
+        :stream true
+        :on-next (fn [x] (do
+                           (ws/send socket
+                                    (json/write-str
+                                     {:token (:content (:delta (first (:choices x))))
+                                      :index @curr-index}))
+                           (swap! curr-index inc)))}
+       {:api-key openai-api-key}))))
+
 
 (defn process-gpt-socket-message [socket message]
-  (if (= message "exit")
+  (cond
+    (= message "exit")
     (ws/close socket)
+
+    (= message "heartbeat")
+    nil
+
+    :else
     (let [socket-request (clojure.walk/keywordize-keys (json/read-str message))]
       (case (keyword (:socket-method socket-request))
         :streaming-gpt-request (start-streaming-gpt socket socket-request)

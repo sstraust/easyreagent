@@ -97,7 +97,7 @@
                                (.preventDefault event)
                                ))
               :value @curr-value-atom
-              :class "input input-xs input-bordered w-full"}])
+              :class "input input-xs input-bordered w-full focus:outline-none"}])
 
 (defc checkbox [is-checked-atom]
   [:input {:type "checkbox"
