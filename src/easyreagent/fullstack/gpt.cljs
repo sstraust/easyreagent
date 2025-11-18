@@ -4,6 +4,7 @@
    [easyreagent.components :as er]
    ["react-markdown$default" :as Markdown]
    ["framer-motion" :refer [AnimatePresence motion]]
+   ["lucide-react" :refer [Send]]
    [clojure.string :as string]
    [reagent.core :as r]))
 
@@ -15,7 +16,30 @@
   (message-text [this] message-content)
   Renderable
   (render [this]
-    [:p message-content]))
+    [:h-box [:p.mr-4 {:class "text-base-content/80"} "> "] [:p message-content]]))
+
+
+(defn start-streaming-text [input-text output-text-atom speed]
+  (let [text-tokens (atom (string/split input-text #" "))
+        interval-id (atom nil)]
+    (def zz [input-text output-text-atom speed])
+    (reset! interval-id
+            (js/setInterval
+             (fn []
+               (swap! output-text-atom
+                      str (first @text-tokens) " ")
+               (swap! text-tokens rest)
+               (when (empty? @text-tokens)
+                 (js/clearInterval @interval-id)))
+             speed))))
+
+(defn show-text-streaming [input-text speed]
+  (let [output-text-atom (r/atom "")]
+    (start-streaming-text input-text output-text-atom speed)
+    (fn [input-text speed]
+      [:p @output-text-atom])))
+      
+    
 
 ;; when the socket is reset, who owns that transition?
 ;; I think GPTChat has to own it, so that there is a single source of control
@@ -56,58 +80,72 @@
       (set! (.-onmessage chan)
             (fn [msg]
               (let [msg-map (js->clj (.parse js/JSON (.-data msg)) :keywordize-keys true)]
-                (swap! curr-result-tokens conj (:token msg-map))
-                (when (not (:token msg-map))
-                  (on-complete)))))
+                ;; TODO make it an option whether to display this/what to display
+                (when (= (:type msg-map) "tool_called")
+                  (swap! curr-result-tokens conj (str "tool called: "
+                                                      (:tool_name msg-map)
+                                                      (str (:arguments msg-map)))))
+                (when (not (or (= (:type msg-map) "heartbeat")
+                               (= (:type msg-map) "tool_called")))
+                  (swap! curr-result-tokens conj (:token msg-map))
+                  (when (not (:token msg-map))
+                    (on-complete))))))
       chan)))
 
-(defn get-gpt-results-streaming [socket prompt]
+(defn get-gpt-results-streaming [socket prompt prompt-endpoint]
   (.addEventListener
    socket "open"
    (fn [event]
      (.send socket
             (.stringify js/JSON
                         (clj->js {:socket-method :streaming-gpt-request
-                                  :prompt-input prompt}))))))
+                                  :prompt-input prompt
+                                  :prompt-endpoint prompt-endpoint}))))))
 
-(defn make-gpt-message [options prompt]
+(defn make-gpt-message [options prompt prompt-endpoint]
   (let [tokens-list-atom (r/atom [])
         socket (create-gpt-socket tokens-list-atom (:on-complete options))]
-    (get-gpt-results-streaming socket prompt)
+    ;; send a heartbeat every 3 seconds
+    (js/setInterval (fn [] (.send socket "heartbeat")) 3000)
+    (get-gpt-results-streaming socket prompt prompt-endpoint)
     (GPTMessage. options tokens-list-atom)))
 
-(comment
-  (def zz (r/atom []))
 
-  (swap! zz conj 1)
-  )
-(defn submit-chat [{:keys [message-history-atom input-atom]}]
+(defn submit-chat [{:keys [message-history-atom input-atom prompt-endpoint]}]
   (swap! message-history-atom
          conj
          (UserMessage. @input-atom))
   (swap! message-history-atom
          conj
-         (make-gpt-message nil @input-atom))
+         (make-gpt-message nil @input-atom prompt-endpoint))
   (reset! input-atom ""))
 
 (defn gpt-input-box [gpt-chat]
   [:div.form-control.w-full.mx-auto.mb-4
-   [:div.flex.items-stretch
-    [er/text-area {:class "input input-bordered h-full max-h-none"
+   [:div.flex.items-center
+    [er/text-area {:class "input h-full max-h-none"
                    :style {:line-height "1.5rem"}
                    :on-enter (fn [] (submit-chat gpt-chat))}
      (:input-atom gpt-chat)]
-    [:button.btn.btn-primary.btn-md
-     {:on-click (fn [] (submit-chat gpt-chat))}]]])
+    [:button.btn.btn-primary.btn-md.mx-1
+     {:on-click (fn [] (submit-chat gpt-chat))}
+     [:> Send {:size 20}]
+     ]]])
 
-(defrecord GPTChat [message-history-atom input-atom]
+(defrecord GPTChat [message-history-atom input-atom prompt-endpoint]
   Renderable
   (render [this]
-    [:v-box.easyreagent-fullstack-gpt-gptchat
+    [:v-box.easyreagent-fullstack-gpt-gptchat.overflow-y-scroll.scrollbar-hide
+     {:style {:flex-direction "column-reverse"
+              :max-height "100%"
+              :display "flex"}}
+     [gpt-input-box this]
      [:> AnimatePresence
       {:transition-key @message-history-atom}
       (when @message-history-atom
-        (for [message @message-history-atom]
-          [easyreagent.util/render message]))]
-     [gpt-input-box this]]))
+        [:div.scrollbar-hide.overflow-scroll
+         {:style {:flex-direction "column-reverse"
+                  :display "flex"}}
+         (for [message  (reverse @message-history-atom)]
+           [:div.flex.flex-col [easyreagent.util/render message]])])]]))
 

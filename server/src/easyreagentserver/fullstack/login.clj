@@ -21,8 +21,21 @@
 ;; that takes the identifier key as input
 ;; TODO I want to modify this to make username the default
 ;; but I have to be sort of careful around how I do this
+
+;; currently its only used by newsv2
+;; so its really not too late to change
+;; and then you want to _specialize_
+;; the e-mail case?
+;; idk -- you really need to think this through
+;; email is sort of a special case
+
+
+;; I think I make username the default
+;; and then modify sprinklz to use email by default?
+
+;; people be forgetting their usernames
 (defn identifier-key []
-  :email)
+  :username)
 (defn identifier-map [user]
   {(identifier-key) ((identifier-key) user)})
 
