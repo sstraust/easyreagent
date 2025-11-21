@@ -9,6 +9,7 @@
             [ring.middleware.cookies :refer [wrap-cookies]]
             [ring.middleware.keyword-params :refer [wrap-keyword-params]]
             [ring.middleware.params :only [wrap-params] :refer [wrap-params]]
+            [ring.middleware.session :refer [wrap-session]]
             [environ.core :refer [env]]))
 
 (def MODE (atom
@@ -46,10 +47,11 @@
         extra-wrappers (or (:extra-wrappers options) identity)]
     (reset! web-server (ring/run-jetty
                         (extra-wrappers (wrap-gzip
-                         (wrap-cookies
+                                         (wrap-cookies
+                                          (wrap-session
                           (wrap-json-params
                           (wrap-params
-                           (wrap-keyword-params all-routes))))))
+                           (wrap-keyword-params all-routes)))))))
                         options))
     (println "Server is running on port " (:port options))))
                       
