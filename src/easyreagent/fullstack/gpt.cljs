@@ -71,7 +71,15 @@
       (not (:extra-formatting options))
       [:> Markdown
        {:className "markdown"}
+<<<<<<< HEAD
        (message-with-debugtext this)]
+=======
+       (apply str
+              (concat
+               (map #(str % "\n\n") @non-text-responses-atom)
+               [(message-text this)]))]
+            
+>>>>>>> 8cd95c4fa6c26d837495fed87ed5cb2728f77325
 
       :else
       ((:extra-formatting options)
@@ -103,7 +111,11 @@
                     (on-complete))))))
       chan)))
 
+<<<<<<< HEAD
 (defn get-gpt-results-streaming [socket prompt prompt-endpoint gpt-chat]
+=======
+(defn get-gpt-results-streaming [socket prompt prompt-endpoint]
+>>>>>>> 8cd95c4fa6c26d837495fed87ed5cb2728f77325
   (.addEventListener
    socket "open"
    (fn [event]
@@ -111,26 +123,44 @@
             (.stringify js/JSON
                         (clj->js {:socket-method :streaming-gpt-request
                                   :prompt-input prompt
+<<<<<<< HEAD
                                   :extra-message-data (:extra-message-data (:chat-options gpt-chat))
                                   :message-history (map message-with-debugtext @(:message-history-atom gpt-chat))
                                   :prompt-endpoint prompt-endpoint}))))))
 
 (defn make-gpt-message [options prompt prompt-endpoint gpt-chat]
+=======
+                                  :prompt-endpoint prompt-endpoint}))))))
+
+(defn make-gpt-message [options prompt prompt-endpoint]
+>>>>>>> 8cd95c4fa6c26d837495fed87ed5cb2728f77325
   (let [gpt-message (GPTMessage. options (r/atom []) (r/atom []))
         socket (create-gpt-socket gpt-message (:on-complete options))]
     ;; send a heartbeat every 3 seconds
     (js/setInterval (fn [] (.send socket "heartbeat")) 3000)
+<<<<<<< HEAD
     (get-gpt-results-streaming socket prompt prompt-endpoint gpt-chat)
     gpt-message))
 
 
 (defn submit-chat [{:keys [message-history-atom input-atom prompt-endpoint chat-options] :as gpt-chat}]
+=======
+    (get-gpt-results-streaming socket prompt prompt-endpoint)
+    gpt-message))
+
+
+(defn submit-chat [{:keys [message-history-atom input-atom prompt-endpoint chat-options]}]
+>>>>>>> 8cd95c4fa6c26d837495fed87ed5cb2728f77325
   (swap! message-history-atom
          conj
          (UserMessage. @input-atom))
   (swap! message-history-atom
          conj
+<<<<<<< HEAD
          (make-gpt-message chat-options @input-atom prompt-endpoint gpt-chat))
+=======
+         (make-gpt-message chat-options @input-atom prompt-endpoint))
+>>>>>>> 8cd95c4fa6c26d837495fed87ed5cb2728f77325
   (reset! input-atom ""))
 
 (defn gpt-input-box [gpt-chat]
