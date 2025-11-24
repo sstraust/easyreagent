@@ -32,11 +32,6 @@
         prompt-endpoint-name (or (:prompt-endpoint message) "default")
         prompt-endpoint (get @prompt-endpoints prompt-endpoint-name)
         curr-index (atom 0)]
-    (def m message)
-    (def message-hist (concat
-                          [{:role "system" :content (or (:system-prompt prompt-endpoint) "")}]
-                          (map (fn [x] {:role "user" :content x}) message-history)
-                          [{:role "user" :content prompt-input}]))
     (if (:custom-handler prompt-endpoint)
       ((:custom-handler prompt-endpoint)
        socket message params)
@@ -72,7 +67,6 @@
         :else (println message))))))
 
 (defn setup-socket [params]
-  (def mm params)
   {::ws/listener
    {:on-open
     (fn [socket]
