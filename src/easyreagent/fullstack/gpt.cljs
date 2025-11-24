@@ -80,7 +80,7 @@
 
 (defn get-socket-url []
   (str
-   (if (= js/mode "dev") "ws://" "wss://")
+   (if (or (= js/mode "dev") js/easyReagentNoSSL) "ws://" "wss://")
    (.-host js/location) "/easyreagent/fullstack/gpt/gptAPI/ws"))
 
 
