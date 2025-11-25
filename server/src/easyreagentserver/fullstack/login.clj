@@ -35,7 +35,7 @@
 
 ;; people be forgetting their usernames
 (defn identifier-key []
-  :username)
+  :email)
 (defn identifier-map [user]
   {(identifier-key) ((identifier-key) user)})
 
