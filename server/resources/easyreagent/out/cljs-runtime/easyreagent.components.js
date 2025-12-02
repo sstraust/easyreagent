@@ -216,8 +216,8 @@ return easyreagent.create_component.with_attr_map(attr_map__$1,cljs.core.apply.c
 (easyreagent.components.text_area.cljs$lang$maxFixedArity = 2);
 
 easyreagent.components.checkbox = (function easyreagent$components$checkbox(var_args){
-var G__23660 = arguments.length;
-switch (G__23660) {
+var G__23662 = arguments.length;
+switch (G__23662) {
 case 1:
 return easyreagent.components.checkbox.cljs$core$IFn$_invoke$arity$1((arguments[(0)]));
 
