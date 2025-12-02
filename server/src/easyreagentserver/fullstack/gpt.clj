@@ -50,7 +50,6 @@
                            (swap! curr-index inc)
 
                            
-                           (def zz (first (:choices x)))
                            (when (= (:finish_reason (first (:choices x))) "stop")
                              (ws/send socket (json/write-str {:type "msg_complete"})))
                            ))}
