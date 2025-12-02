@@ -47,7 +47,12 @@
                                     (json/write-str
                                      {:token (:content (:delta (first (:choices x))))
                                       :index @curr-index}))
-                           (swap! curr-index inc)))}
+                           (swap! curr-index inc)
+
+                           
+                           (when (= (:finish_reason (first (:choices x))) "stop")
+                             (ws/send socket (json/write-str {:type "msg_complete"})))
+                           ))}
        {:api-key openai-api-key}))))
 
 

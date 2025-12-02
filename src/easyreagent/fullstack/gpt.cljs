@@ -80,7 +80,7 @@
 
 (defn get-socket-url []
   (str
-   (if (or (= js/mode "dev") js/easyReagentNoSSL) "ws://" "wss://")
+   (if (= js/mode "dev") "ws://" "wss://")
    (.-host js/location) "/easyreagent/fullstack/gpt/gptAPI/ws"))
 
 
@@ -92,15 +92,23 @@
       (set! (.-onmessage chan)
             (fn [msg]
               (let [msg-map (js->clj (.parse js/JSON (.-data msg)) :keywordize-keys true)]
-                (when (= (:type msg-map) "tool_called")
+                (cond
+                  (= (:type msg-map) "tool_called")
                   (swap! (:non-text-responses-atom message-object)
                          conj
-                         (select-keys msg-map [:tool_name :arguments])))
-                (when (not (or (= (:type msg-map) "heartbeat")
-                               (= (:type msg-map) "tool_called")))
-                  (swap! curr-result-tokens conj (:token msg-map))
-                  (when (not (:token msg-map))
-                    (on-complete))))))
+                         (select-keys msg-map [:tool_name :arguments]))
+                  (= (:type msg-map) "msg_complete")
+                  (do
+                    (on-complete))
+
+                  (not (or (= (:type msg-map) "heartbeat")
+                           (= (:type msg-map) "tool_called")))
+                  (do 
+                    (swap! curr-result-tokens conj (:token msg-map))
+                    (when (not (:token msg-map))
+                      (on-complete)))
+
+                  :else nil))))
       chan)))
 
 (defn get-gpt-results-streaming [socket prompt prompt-endpoint gpt-chat]
@@ -118,17 +126,20 @@
 (defn make-gpt-message [options prompt prompt-endpoint gpt-chat]
 
   (let [gpt-message (GPTMessage. options (r/atom []) (r/atom []))
-        socket (create-gpt-socket gpt-message (:on-complete options))]
+        socket (create-gpt-socket gpt-message (fn []
+                                                (reset! (:is-currently-responding gpt-chat) false)
+                                                ((:on-complete options))))]
     ;; send a heartbeat every 3 seconds
     (js/setInterval (fn [] (.send socket "heartbeat")) 3000)
     (get-gpt-results-streaming socket prompt prompt-endpoint gpt-chat)
     gpt-message))
 
 
-(defn submit-chat [{:keys [message-history-atom input-atom prompt-endpoint chat-options] :as gpt-chat}]
+(defn submit-chat [{:keys [message-history-atom input-atom prompt-endpoint chat-options is-currently-responding] :as gpt-chat}]
   (swap! message-history-atom
          conj
          (UserMessage. @input-atom))
+  (reset! is-currently-responding true)
   (swap! message-history-atom
          conj
          (make-gpt-message chat-options @input-atom prompt-endpoint gpt-chat))
@@ -138,6 +149,7 @@
   [:div.form-control.w-full.mx-auto.mb-4
    [:div.flex.items-center
     [er/text-area {:class "input h-full max-h-none"
+                   :disabled @(:is-currently-responding gpt-chat)
                    :style {:line-height "1.5rem"}
                    :on-enter (fn [] (submit-chat gpt-chat))}
      (:input-atom gpt-chat)]
@@ -145,7 +157,7 @@
      {:on-click (fn [] (submit-chat gpt-chat))}
      [:> Send {:size 20}]]]])
 
-(defrecord GPTChat [message-history-atom input-atom prompt-endpoint chat-options]
+(defrecord GPTChat [message-history-atom input-atom prompt-endpoint is-currently-responding chat-options]
   Renderable
   (render [this]
     [:v-box.easyreagent-fullstack-gpt-gptchat.overflow-y-scroll.scrollbar-hide
