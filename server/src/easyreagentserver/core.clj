@@ -10,6 +10,7 @@
             [ring.middleware.keyword-params :refer [wrap-keyword-params]]
             [ring.middleware.params :only [wrap-params] :refer [wrap-params]]
             [ring.middleware.session :refer [wrap-session]]
+            [ring.middleware.multipart-params :refer [wrap-multipart-params]]
             [environ.core :refer [env]]))
 
 (def MODE (atom
@@ -50,8 +51,9 @@
                                          (wrap-cookies
                                           (wrap-session
                           (wrap-json-params
-                          (wrap-params
-                           (wrap-keyword-params all-routes)))))))
+                           (wrap-params
+                            (wrap-multipart-params
+                           (wrap-keyword-params all-routes))))))))
                         options))
     (println "Server is running on port " (:port options))))
                       
