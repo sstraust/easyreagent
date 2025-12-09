@@ -115,12 +115,12 @@ return null;
 }));
 
 (easyreagent.components.text_field.cljs$core$IFn$_invoke$arity$2 = (function (attr_map,curr_value_atom){
-var G__23646 = cljs.core.atom.cljs$core$IFn$_invoke$arity$1(attr_map);
+var G__23642 = cljs.core.atom.cljs$core$IFn$_invoke$arity$1(attr_map);
 var result__23617__auto__ = new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"input","input",556931961),new cljs.core.PersistentArrayMap(null, 4, [new cljs.core.Keyword(null,"on-change","on-change",-732046149),(function (val){
 return cljs.core.reset_BANG_(curr_value_atom,val.target.value);
 }),new cljs.core.Keyword(null,"on-key-down","on-key-down",-1374733765),(function (event){
-if(((cljs.core._EQ_.cljs$core$IFn$_invoke$arity$2((13),event.keyCode)) && ((!((new cljs.core.Keyword(null,"on-enter","on-enter",-928988216).cljs$core$IFn$_invoke$arity$1(cljs.core.deref(G__23646)) == null)))))){
-var fexpr__23650_23725 = new cljs.core.Keyword(null,"on-enter","on-enter",-928988216).cljs$core$IFn$_invoke$arity$1(cljs.core.deref(G__23646));
+if(((cljs.core._EQ_.cljs$core$IFn$_invoke$arity$2((13),event.keyCode)) && ((!((new cljs.core.Keyword(null,"on-enter","on-enter",-928988216).cljs$core$IFn$_invoke$arity$1(cljs.core.deref(G__23642)) == null)))))){
+var fexpr__23650_23725 = new cljs.core.Keyword(null,"on-enter","on-enter",-928988216).cljs$core$IFn$_invoke$arity$1(cljs.core.deref(G__23642));
 (fexpr__23650_23725.cljs$core$IFn$_invoke$arity$0 ? fexpr__23650_23725.cljs$core$IFn$_invoke$arity$0() : fexpr__23650_23725.call(null, ));
 
 return event.preventDefault();
@@ -132,7 +132,7 @@ if((!(cljs.core.fn_QMARK_(result__23617__auto__)))){
 return easyreagent.create_component.with_attr_map(attr_map,result__23617__auto__);
 } else {
 return (function (attr_map__$1,curr_value_atom__$1){
-cljs.core.reset_BANG_(G__23646,attr_map__$1);
+cljs.core.reset_BANG_(G__23642,attr_map__$1);
 
 return easyreagent.create_component.with_attr_map(attr_map__$1,cljs.core.apply.cljs$core$IFn$_invoke$arity$2(result__23617__auto__,new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [curr_value_atom__$1], null)));
 });
@@ -216,8 +216,8 @@ return easyreagent.create_component.with_attr_map(attr_map__$1,cljs.core.apply.c
 (easyreagent.components.text_area.cljs$lang$maxFixedArity = 2);
 
 easyreagent.components.checkbox = (function easyreagent$components$checkbox(var_args){
-var G__23662 = arguments.length;
-switch (G__23662) {
+var G__23660 = arguments.length;
+switch (G__23660) {
 case 1:
 return easyreagent.components.checkbox.cljs$core$IFn$_invoke$arity$1((arguments[(0)]));
 
@@ -258,8 +258,8 @@ return easyreagent.create_component.with_attr_map(attr_map__$1,cljs.core.apply.c
 (easyreagent.components.checkbox.cljs$lang$maxFixedArity = 2);
 
 easyreagent.components.slider = (function easyreagent$components$slider(var_args){
-var G__23676 = arguments.length;
-switch (G__23676) {
+var G__23663 = arguments.length;
+switch (G__23663) {
 case 3:
 return easyreagent.components.slider.cljs$core$IFn$_invoke$arity$3((arguments[(0)]),(arguments[(1)]),(arguments[(2)]));
 
@@ -282,7 +282,7 @@ return cljs.core.reset_BANG_(current_value_atom,val.target.value);
 }));
 
 (easyreagent.components.slider.cljs$core$IFn$_invoke$arity$4 = (function (attr_map,current_value_atom,min,max){
-var G__23672 = cljs.core.atom.cljs$core$IFn$_invoke$arity$1(attr_map);
+var G__23661 = cljs.core.atom.cljs$core$IFn$_invoke$arity$1(attr_map);
 var result__23617__auto__ = new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"input","input",556931961),new cljs.core.PersistentArrayMap(null, 6, [new cljs.core.Keyword(null,"type","type",1174270348),"range",new cljs.core.Keyword(null,"min","min",444991522),min,new cljs.core.Keyword(null,"max","max",61366548),max,new cljs.core.Keyword(null,"value","value",305978217),cljs.core.deref(current_value_atom),new cljs.core.Keyword(null,"style","style",-496642736),new cljs.core.PersistentArrayMap(null, 3, [new cljs.core.Keyword(null,"float","float",-1732389368),"left",new cljs.core.Keyword(null,"width","width",-384071477),"100%",new cljs.core.Keyword(null,"margin-top","margin-top",392161226),(3)], null),new cljs.core.Keyword(null,"on-change","on-change",-732046149),(function (val){
 return cljs.core.reset_BANG_(current_value_atom,val.target.value);
 })], null)], null);
@@ -290,7 +290,7 @@ if((!(cljs.core.fn_QMARK_(result__23617__auto__)))){
 return easyreagent.create_component.with_attr_map(attr_map,result__23617__auto__);
 } else {
 return (function (attr_map__$1,current_value_atom__$1,min__$1,max__$1){
-cljs.core.reset_BANG_(G__23672,attr_map__$1);
+cljs.core.reset_BANG_(G__23661,attr_map__$1);
 
 return easyreagent.create_component.with_attr_map(attr_map__$1,cljs.core.apply.cljs$core$IFn$_invoke$arity$2(result__23617__auto__,new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [current_value_atom__$1,min__$1,max__$1], null)));
 });
@@ -625,8 +625,8 @@ var with_let23705 = reagent.ratom.with_let_values(new cljs.core.Keyword(null,"wi
 var temp__5827__auto___23746 = reagent.ratom._STAR_ratom_context_STAR_;
 if((temp__5827__auto___23746 == null)){
 } else {
-var c__20050__auto___23747 = temp__5827__auto___23746;
-if((with_let23705.generation === c__20050__auto___23747.ratomGeneration)){
+var c__20065__auto___23747 = temp__5827__auto___23746;
+if((with_let23705.generation === c__20065__auto___23747.ratomGeneration)){
 if(reagent.debug.has_console){
 ((reagent.debug.tracking)?reagent.debug.track_console:console).error(["Warning: The same with-let is being used more ","than once in the same reactive context."].join(''));
 } else {
@@ -634,7 +634,7 @@ if(reagent.debug.has_console){
 } else {
 }
 
-(with_let23705.generation = c__20050__auto___23747.ratomGeneration);
+(with_let23705.generation = c__20065__auto___23747.ratomGeneration);
 }
 
 var init23706 = (with_let23705.length === (0));

@@ -1,8 +1,9 @@
 (ns easyreagent.fullstack.login 
   (:require
    [easyreagent.components :as er]
-   [reagent.core :as r]
-   [easyreagent.util :as er-util])
+   [easyreagent.create-component :as create-component]
+   [easyreagent.util :as er-util]
+   [reagent.core :as r])
   (:require-macros [easyreagent.create-component-macros :refer [defc]]))
 
 
@@ -133,7 +134,9 @@
    :failure identity))
 (def get-login-user (memoize get-login-user-helper))
 
-(defn display-logged-in-user []
+(defn display-logged-in-user
+  ([] [display-logged-in-user nil])
+  ([options]
   (let [popup-style {:style {:width "35rem"
                              :margin-top "10vh"
                                  :padding-left "4rem"
@@ -142,8 +145,11 @@
   (fn []
     (get-login-user)
     [:div.dropdown
-     [:div.btn.text-secondary.btn-ghost.btn-md.max-w-48 {:tabIndex "0"
-                                                         :role "button"}
+     [:div.btn.text-secondary.btn-ghost.btn-md.max-w-48
+      (create-component/merge-attrs
+       (:button-style options)
+       {:tabIndex "0"
+        :role "button"})
       @curr-logged-in-name]
      [:ul {:tabIndex "0"
            :class "menu dropdown-content bg-base-100 rounded-box z-[1] w-52 p-2 shadow"}
@@ -175,7 +181,7 @@
                        :failure #(js/alert (str "failed to log out!: " %))))}
          [:a "Log Out"]])]]
      ;; @curr-logged-in-name
-    )))
+    ))))
 
 
 (defn is-logged-in? []
