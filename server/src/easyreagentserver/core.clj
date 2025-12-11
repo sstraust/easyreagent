@@ -52,7 +52,7 @@
                                           (wrap-session
                           (wrap-json-params
                            (wrap-params
-                            (wrap-multipart-params
+                            (wrap-multipart-params 
                            (wrap-keyword-params all-routes))))))))
                         options))
     (println "Server is running on port " (:port options))))
