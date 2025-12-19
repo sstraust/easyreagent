@@ -64,10 +64,11 @@
    :body (json/write-str {:result "success"})})
 
 (defn failure-response [message]
-  {:status 200
+  {:status 500
    :headers {"Content-type" "application/json"}
    :body (json/write-str {:result "failure"
                           :reason message})})
+
 
 (defn json-response [clojure-map]
   {:status 200
