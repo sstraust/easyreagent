@@ -79,3 +79,18 @@
   (if (vector? param-val)
     param-val
     (list param-val)))
+
+
+(defn param-schema [params & {:keys [optional]}]
+   [:=>
+    [:cat
+     [:map [:params
+            (into
+             []
+             (concat [:map]
+                     (for [[k v] params]
+                       [k v])
+                     (for [[k v] optional]
+                       [k {:optional true} v])
+                     ))]]]
+    :any])
