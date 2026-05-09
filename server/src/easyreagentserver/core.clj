@@ -1,17 +1,19 @@
 (ns easyreagentserver.core
-  (:require [me.raynes.conch.low-level :as sh]
-            [ring.adapter.jetty :as ring]
-            [compojure.route :as route]
-            [compojure.core]
-            [clojure.data.json :as json]
-            [ring.middleware.json :refer [wrap-json-body wrap-json-params]]
-            [ring.middleware.gzip :refer [wrap-gzip]]
-            [ring.middleware.cookies :refer [wrap-cookies]]
-            [ring.middleware.keyword-params :refer [wrap-keyword-params]]
-            [ring.middleware.params :only [wrap-params] :refer [wrap-params]]
-            [ring.middleware.session :refer [wrap-session]]
-            [ring.middleware.multipart-params :refer [wrap-multipart-params]]
-            [environ.core :refer [env]]))
+  (:require
+   [clojure.data.json :as json]
+   [compojure.core]
+   [compojure.route :as route]
+   [easyreagentserver.internal :as internal]
+   [environ.core :refer [env]]
+   [me.raynes.conch.low-level :as sh]
+   [ring.adapter.jetty :as ring]
+   [ring.middleware.cookies :refer [wrap-cookies]]
+   [ring.middleware.gzip :refer [wrap-gzip]]
+   [ring.middleware.json :refer [wrap-json-params]]
+   [ring.middleware.keyword-params :refer [wrap-keyword-params]]
+   [ring.middleware.multipart-params :refer [wrap-multipart-params]]
+   [ring.middleware.params :only [wrap-params] :refer [wrap-params]]
+   [ring.middleware.session :refer [wrap-session]]))
 
 (def MODE (atom
            (if (= (:clojure-project-mode env) "dev")
@@ -58,16 +60,13 @@
     (println "Server is running on port " (:port options))))
                       
   
-(defn success-response []
-  {:status 200
-   :headers {"Content-type" "application/json"}
-   :body (json/write-str {:result "success"})})
+(def success-response internal/success-response)
+(def failure-response internal/failure-response)
+(def is-failure-response? internal/is-failure-response?)
+(def is-success-response? internal/is-success-response?)
+(def get-failure-message internal/get-failure-message)
+(def parse-json-response internal/parse-json-response)
 
-(defn failure-response [message]
-  {:status 500
-   :headers {"Content-type" "application/json"}
-   :body (json/write-str {:result "failure"
-                          :reason message})})
 
 
 (defn json-response [clojure-map]
